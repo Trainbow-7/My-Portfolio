@@ -18,8 +18,7 @@ const DEFAULT_DATA = {
       role: 'Lead AI Engineer & System Architect',
       outcome: 'Improved student assessment retention by 42% in pilot cohorts and reduced teacher lesson planning time by 60%.',
       image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80',
-      demoUrl: '#',
-      githubUrl: 'https://github.com/temitayo-oyedeji/trainbowhub'
+      demoUrl: '#'
     },
     {
       id: 'proj-2',
@@ -32,8 +31,7 @@ const DEFAULT_DATA = {
       role: 'UAV Systems Architect & Lead Pilot',
       outcome: 'Successfully mapped over 1,200 hectares with sub-meter spatial accuracy and deployed for agricultural yield estimation.',
       image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80',
-      demoUrl: '#',
-      githubUrl: 'https://github.com/temitayo-oyedeji/uav-precision-mapping'
+      demoUrl: '#'
     },
     {
       id: 'proj-3',
@@ -46,8 +44,7 @@ const DEFAULT_DATA = {
       role: 'Data Scientist & ML Developer',
       outcome: 'Achieved 89.4% prediction accuracy on multi-seasonal food basket index and published open notebooks for developer access.',
       image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-      demoUrl: '#',
-      githubUrl: 'https://github.com/temitayo-oyedeji/nigerian-agri-ml'
+      demoUrl: '#'
     },
     {
       id: 'proj-4',
@@ -60,8 +57,7 @@ const DEFAULT_DATA = {
       role: 'Curriculum Director & Workshop Facilitator',
       outcome: 'Trained 450+ secondary students across 12 institutions; 100% of participants built and test-flew functional micro-quadcopters.',
       image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
-      demoUrl: '#',
-      githubUrl: 'https://github.com/temitayo-oyedeji/stem-drone-curriculum'
+      demoUrl: '#'
     },
     {
       id: 'proj-5',
@@ -74,8 +70,7 @@ const DEFAULT_DATA = {
       role: 'Computer Vision Engineer',
       outcome: 'Identified structural defects with 94.2% precision, decreasing inspection turnaround time from days to hours.',
       image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
-      demoUrl: '#',
-      githubUrl: 'https://github.com/temitayo-oyedeji/cv-infrastructure-inspection'
+      demoUrl: '#'
     },
     {
       id: 'proj-6',
@@ -88,8 +83,7 @@ const DEFAULT_DATA = {
       role: 'Master Mathematics Educator',
       outcome: 'Over 15 years produced consistent A* and Distinction candidates across secondary examinations.',
       image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80',
-      demoUrl: '#',
-      githubUrl: '#'
+      demoUrl: '#'
     }
   ],
   articles: [
@@ -452,7 +446,6 @@ function renderProjects(filter = 'all') {
           </div>
           <div class="project-actions">
             <button class="btn btn-primary btn-sm" onclick="openProjectModal('${p.id}')">View Case Study</button>
-            ${p.githubUrl && p.githubUrl !== '#' ? `<a href="${p.githubUrl}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">GitHub</a>` : ''}
           </div>
         </div>
       </div>
@@ -626,7 +619,6 @@ window.openProjectModal = function(id) {
 
     <div style="display: flex; gap: 12px; border-top: 1px solid var(--border-light); padding-top: 20px;">
       <a href="#contact" class="btn btn-primary btn-sm" onclick="closeAllModals(); selectServiceFromProject('${proj.category}')">Discuss Similar Project</a>
-      ${proj.githubUrl && proj.githubUrl !== '#' ? `<a href="${proj.githubUrl}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">View on GitHub</a>` : ''}
     </div>
   `;
 
