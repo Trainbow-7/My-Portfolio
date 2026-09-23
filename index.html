@@ -70,7 +70,7 @@
         </div>
       </a>
 
-      <nav class="nav-menu" id="navMenu">
+      <nav class="nav-menu" id="navMenu" data-lenis-prevent>
         <a href="#about" class="nav-link">About</a>
 
         <!-- Expertise Dropdown -->
@@ -1266,7 +1266,7 @@
 
   <!-- Project Detail Case Study Modal -->
   <div class="modal-overlay" id="projectDetailModal">
-    <div class="modal-content">
+    <div class="modal-content" data-lenis-prevent>
       <button class="modal-close" aria-label="Close Modal">&times;</button>
       <div id="projectModalBody">
         <!-- Populated dynamically -->
@@ -1276,7 +1276,7 @@
 
   <!-- Generic Modal (Articles & Credentials) -->
   <div class="modal-overlay" id="genericModal">
-    <div class="modal-content">
+    <div class="modal-content" data-lenis-prevent>
       <button class="modal-close" aria-label="Close Modal">&times;</button>
       <div id="genericModalBody">
         <!-- Populated dynamically -->
@@ -1286,7 +1286,7 @@
 
   <!-- Admin CMS & CRM Modal -->
   <div class="modal-overlay" id="adminModal">
-    <div class="modal-content" style="max-width: 840px;">
+    <div class="modal-content" style="max-width: 840px;" data-lenis-prevent>
       <button class="modal-close" aria-label="Close Modal">&times;</button>
 
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -1384,15 +1384,9 @@
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
-  <div class="toast-container" id="toastContainer"></div>
-
-  <!-- Main JavaScript File -->
-  <script src="js/app.js"></script>
-
   <!-- Document Request Modal -->
   <div class="modal-overlay" id="docRequestModal">
-    <div class="modal-content" style="max-width: 520px;">
+    <div class="modal-content" style="max-width: 520px;" data-lenis-prevent>
       <button class="modal-close" aria-label="Close Modal">&times;</button>
       <div style="margin-bottom: 20px;">
         <h3 style="font-size: 1.4rem; font-weight: 800; color: var(--text-main); margin-top: 6px;" id="docReqModalHeading">Request Credential</h3>
@@ -1444,6 +1438,16 @@
       </form>
     </div>
   </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Vendor Libraries: Lenis Smooth Scroll & Framer Motion Engine -->
+  <script src="js/vendor/lenis.min.js"></script>
+  <script src="js/vendor/motion.js"></script>
+
+  <!-- Application Logic -->
+  <script src="js/app.js"></script>
 
 </body>
 

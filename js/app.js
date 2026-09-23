@@ -356,7 +356,153 @@ document.addEventListener('DOMContentLoaded', () => {
   initModals();
   initContactForm();
   initAdminDashboard();
+  initLenis();
+  initMotionAnimations();
 });
+
+// Lenis Smooth Inertial Scrolling Engine
+let lenis = null;
+function initLenis() {
+  if (typeof Lenis === 'undefined') return;
+
+  // Respect user preference for reduced motion
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  try {
+    lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
+    });
+
+    function raf(time) {
+      if (lenis) lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Smooth scroll for anchor navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (!targetId || targetId === '#' || targetId.startsWith('#!')) return;
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          e.preventDefault();
+          lenis.scrollTo(targetElement, {
+            offset: -80,
+            duration: 1.2
+          });
+        }
+      });
+    });
+  } catch (e) {
+    console.warn('Lenis initialization note:', e);
+  }
+}
+
+// Framer Motion / Motion Engine Animation System
+function initMotionAnimations() {
+  if (typeof Motion === 'undefined') return;
+
+  const { animate, inView, stagger } = Motion;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  try {
+    // 1. Hero Entrance Animation
+    animate(
+      '.hero-badge, .hero-title, .hero-lead, .hero-cta-group, .hero-metrics',
+      { opacity: [0, 1], y: [24, 0] },
+      { delay: stagger(0.1), duration: 0.8, easing: [0.16, 1, 0.3, 1] }
+    );
+
+    animate(
+      '.hero-visual',
+      { opacity: [0, 1], scale: [0.95, 1], y: [20, 0] },
+      { delay: 0.25, duration: 0.9, easing: [0.16, 1, 0.3, 1] }
+    );
+
+    // 2. Section Headers Reveal on Scroll
+    inView('.section-header', (info) => {
+      animate(
+        info.target,
+        { opacity: [0, 1], y: [22, 0] },
+        { duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { amount: 0.2 });
+
+    // 3. Problem/Solution Cards
+    inView('.problem-solution-card', (info) => {
+      animate(
+        info.target,
+        { opacity: [0, 1], y: [28, 0] },
+        { duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { amount: 0.15 });
+
+    // 4. Expertise Cards
+    inView('.expertise-category-card', (info) => {
+      animate(
+        info.target,
+        { opacity: [0, 1], y: [28, 0] },
+        { duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { amount: 0.15 });
+
+    // 5. Service Cards
+    inView('.service-card', (info) => {
+      animate(
+        info.target,
+        { opacity: [0, 1], y: [28, 0] },
+        { duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { amount: 0.15 });
+
+    // 6. Project Cards
+    inView('.project-card', (info) => {
+      animate(
+        info.target,
+        { opacity: [0, 1], y: [30, 0] },
+        { duration: 0.7, easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { amount: 0.15 });
+
+    // 7. Document Cards
+    inView('.doc-card', (info) => {
+      animate(
+        info.target,
+        { opacity: [0, 1], y: [24, 0] },
+        { duration: 0.6, easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { amount: 0.15 });
+
+    // 8. UAV HUB Banner Reveal
+    inView('.uavhub-banner', (info) => {
+      animate(
+        info.target,
+        { opacity: [0, 1], scale: [0.97, 1], y: [24, 0] },
+        { duration: 0.8, easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { amount: 0.15 });
+
+    // 9. Insights Blog Cards
+    inView('.insight-card', (info) => {
+      animate(
+        info.target,
+        { opacity: [0, 1], y: [28, 0] },
+        { duration: 0.65, easing: [0.16, 1, 0.3, 1] }
+      );
+    }, { amount: 0.15 });
+  } catch (err) {
+    console.warn('Motion animation note:', err);
+  }
+}
 
 // Navbar scroll effects and mobile drawer
 function initNavbar() {
@@ -600,6 +746,7 @@ window.closeAllModals = function() {
     modal.classList.remove('active');
   });
   document.body.style.overflow = '';
+  if (typeof lenis !== 'undefined' && lenis) lenis.start();
 };
 
 window.openProjectModal = function(id) {
@@ -651,6 +798,7 @@ window.openProjectModal = function(id) {
 
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+  if (typeof lenis !== 'undefined' && lenis) lenis.stop();
 };
 
 function formatArticleContent(text) {
@@ -774,6 +922,7 @@ window.openArticleModal = function(id) {
 
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+  if (typeof lenis !== 'undefined' && lenis) lenis.stop();
 };
 
 window.openCredentialModal = function(id) {
@@ -923,6 +1072,7 @@ window.openCredentialModal = function(id) {
 
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+  if (typeof lenis !== 'undefined' && lenis) lenis.stop();
 };
 
 // Contact Form & Enquiry System (Linked Directly to WhatsApp)
@@ -1087,6 +1237,7 @@ window.openAdminModal = function() {
   renderAdminProjects();
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+  if (typeof lenis !== 'undefined' && lenis) lenis.stop();
 };
 
 window.switchAdminTab = function(tabName, element) {
@@ -1247,6 +1398,7 @@ window.openDocRequestModal = function(docType) {
 
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+  if (typeof lenis !== 'undefined' && lenis) lenis.stop();
 };
 
 window.handleDocRequestSubmit = function(e) {
