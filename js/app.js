@@ -877,31 +877,14 @@ window.selectServiceFromProject = function(category) {
 // Document Download Handlers
 window.downloadDocument = function(docType) {
   if (docType === 'cv') {
-    generateAndDownloadDoc('Temitayo_Oyedeji_Professional_CV.txt', `TEMITAYO OYEDEJI - PROFESSIONAL CV
-======================================================
-Educator | UAV Professional | AI/ML Practitioner | STEM Innovator | Tech Entrepreneur
-Location: Nigeria
-Email: tplusonice@gmail.com
-Website: Temitayo Oyedeji Digital Hub
-
-SUMMARY:
-Multidisciplinary professional combining 15+ years of Mathematics Education expertise, UAV Drone Engineering, and Applied Artificial Intelligence / Machine Learning development. Co-Founder and MD at UAV HUB SYSTEMS LIMITED.
-
-ACADEMIC & PROFESSIONAL CREDENTIALS:
-- B.Sc. Mathematics Education - University of Lagos (UNILAG)
-- Diploma in Computer / Technology Studies - Obafemi Awolowo University (OAU), Ile-Ife
-- TRCN Licensed & Certified Professional Teacher
-- Certified UAV / Drone Pilot & Aerial Systems Operator
-
-CORE EXPERTISE:
-1. Artificial Intelligence & Machine Learning (Python, PyTorch, Computer Vision, XGBoost)
-2. UAV & Drone Systems (Custom Assembly, PX4/ArduPilot, Aerial Photogrammetry, Safety)
-3. Mathematics & Further Mathematics (Secondary Education, Advanced Mechanics)
-4. STEM Program Development & Technology Entrepreneurship (UAV HUB SYSTEMS LIMITED)
-
-CONTACT & ENGAGEMENT:
-For consultations, aerial mapping, AI development, or STEM workshops, reach out via the digital hub portal.`);
-    showToast('Temitayo Oyedeji CV downloaded successfully!', 'success');
+    const link = document.createElement('a');
+    link.href = 'assets/Temitayo_Oyedeji_Professional_CV.pdf';
+    link.download = 'Temitayo_Oyedeji_Professional_CV.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast('Downloading Temitayo Oyedeji Professional CV (PDF)...', 'success');
   } else if (docType === 'profile') {
     const link = document.createElement('a');
     link.href = 'assets/Oyedeji_Temitayo_Samson_Executive_Profile.pdf';
