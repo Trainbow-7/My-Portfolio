@@ -2,10 +2,8 @@
   "name": "temitayo-portfolio",
   "version": "1.0.0",
   "description": "Temitayo Oyedeji Portfolio Website",
-  "main": "server.js",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js"
+    "dev": "node server.js"
   },
   "keywords": [],
   "author": "Temitayo Oyedeji",
