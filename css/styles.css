@@ -1204,19 +1204,22 @@ ul, ol {
     radial-gradient(100% 100% at 15% 85%, rgba(56, 189, 248, 0.12) 0%, transparent 55%),
     linear-gradient(150deg, #0a131a 0%, #060d12 100%);
   border: 1px solid rgba(45, 212, 191, 0.28);
-  border-radius: var(--radius-xl);
-  padding: 42px 38px;
+  border-radius: var(--radius-lg);
+  padding: 26px 26px;
   box-shadow: 
-    0 24px 50px -12px rgba(2, 6, 9, 0.75),
+    0 20px 40px -10px rgba(2, 6, 9, 0.65),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset,
     0 1px 0 0 rgba(255, 255, 255, 0.2) inset,
-    0 0 45px -10px rgba(20, 184, 166, 0.18);
+    0 0 35px -10px rgba(20, 184, 166, 0.15);
   position: relative;
   overflow: hidden;
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 14px;
+  align-self: center;
+  width: 100%;
 }
 
 .about-visual-card::before {
@@ -1240,26 +1243,15 @@ ul, ol {
   pointer-events: none;
 }
 
-.quote-badge {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 3.4rem;
-  line-height: 0.8;
-  color: #2dd4bf;
-  margin-bottom: 18px;
-  display: block;
-  filter: drop-shadow(0 2px 10px rgba(45, 212, 191, 0.4));
-  opacity: 0.95;
-}
-
 .about-quote {
   font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-size: 1.36rem;
+  font-size: 1.15rem;
   font-style: italic;
   font-weight: 500;
   color: #f8fafc;
-  line-height: 1.7;
-  letter-spacing: 0.015em;
-  margin-bottom: 28px;
+  line-height: 1.62;
+  letter-spacing: 0.01em;
+  margin: 0;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1269,10 +1261,10 @@ ul, ol {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  padding-top: 22px;
-  margin-top: auto;
+  padding-top: 14px;
+  margin-top: 0;
   position: relative;
   z-index: 1;
 }
