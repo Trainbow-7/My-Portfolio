@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Temitayo Oyedeji Portfolio Website",
   "scripts": {
-    "build": "echo 'Static build ready'",
+    "build": "node build.js",
     "dev": "node server.js"
   },
   "keywords": [],
