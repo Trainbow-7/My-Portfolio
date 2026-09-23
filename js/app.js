@@ -94,14 +94,15 @@ const DEFAULT_DATA = {
       date: 'September 2026',
       readTime: '6 min read',
       excerpt: 'Moving beyond textbooks: why building, configuring, and piloting UAVs provides the ultimate synthesis of physics, computing, and spatial mathematics for young minds.',
-      content: `When a student watches a drone take off, they aren't just seeing a flying gadget—they are watching physics, calculus, computer programming, and electrical engineering operate in perfect harmony.
-      
-In our workshops at UAV HUB SYSTEMS LIMITED, we introduce students to the direct relationship between rotational torque, telemetry data, and flight stabilization algorithms. This demystifies advanced concepts like vectors and angular momentum in ways a chalkboard never could.
+      content: `When a student watches a drone take off, they are not just seeing a flying gadget. They are watching physics, calculus, computer programming, and electrical engineering operate in perfect harmony.
 
-### Why Drones are the Ideal STEM Catalyst:
-1. **Multidisciplinary Rigor:** Combines aerodynamics, mechanical assembly, and firmware programming.
-2. **Immediate Feedback Loops:** An incorrectly balanced rotor or wrong PID value yields immediate physical consequences that teach iterative debugging.
-3. **Career Readiness:** Equips students early with skills in aerial surveying, robotics, and automation.`
+In our workshops at UAV HUB SYSTEMS LIMITED, we introduce students to the direct relationship between rotational torque, telemetry data, and flight stabilization algorithms. This demystifies advanced concepts like vectors and angular momentum in ways a traditional chalkboard never could.
+
+Why Drones are the Ideal STEM Catalyst:
+
+1. Multidisciplinary Rigor: Combines aerodynamics, mechanical assembly, and firmware programming.
+2. Immediate Feedback Loops: An incorrectly balanced rotor or wrong PID value yields immediate physical consequences that teach iterative debugging.
+3. Career Readiness: Equips students early with skills in aerial surveying, robotics, and automation.`
     },
     {
       id: 'art-2',
@@ -110,12 +111,13 @@ In our workshops at UAV HUB SYSTEMS LIMITED, we introduce students to the direct
       date: 'August 2026',
       readTime: '8 min read',
       excerpt: 'Artificial intelligence is not just for Silicon Valley giants. Here is how local institutions can implement automation today to eliminate operational bottlenecks.',
-      content: `Many African businesses and educational administrators believe that artificial intelligence requires multi-million dollar infrastructure. In reality, modern lightweight LLMs, Python automation scripts, and API integrations can resolve everyday challenges immediately.
+      content: `Many African businesses and educational administrators believe that artificial intelligence requires multi-million dollar infrastructure. In reality, modern lightweight language models, Python automation scripts, and practical API integrations can resolve everyday challenges immediately.
 
-### Key Practical Applications:
-- **Intelligent Document Parsing:** Automating student records, fee reconciliation, and compliance reports.
-- **Dynamic Lesson Assistance:** Empowering teachers to generate differentiated worksheets and rubric assessments in seconds.
-- **Predictive Inventory & Cashflow:** Utilizing simple gradient boosting models to anticipate seasonal demand and cashflow pinches.`
+Key Practical Applications:
+
+- Intelligent Document Parsing: Automating student records, fee reconciliation, and compliance reports.
+- Dynamic Lesson Assistance: Empowering teachers to generate differentiated worksheets and rubric assessments in seconds.
+- Predictive Inventory and Cashflow: Utilizing simple gradient boosting models to anticipate seasonal demand and cashflow fluctuations.`
     },
     {
       id: 'art-3',
@@ -124,9 +126,15 @@ In our workshops at UAV HUB SYSTEMS LIMITED, we introduce students to the direct
       date: 'July 2026',
       readTime: '5 min read',
       excerpt: 'Why mastering Further Mathematics, linear algebra, and calculus remains the true superpower for future AI engineers and problem solvers.',
-      content: `As artificial intelligence tools become more ubiquitous, the demand for mere prompt writers will decline while the demand for individuals who understand mathematical foundations—loss functions, gradient descent, matrix transformations—will surge.
+      content: `As artificial intelligence tools become more ubiquitous, the demand for mere prompt writers will decline while the demand for individuals who understand mathematical foundations like loss functions, gradient descent, and matrix transformations will surge.
 
-Teaching mathematics today means showing students that matrices are not just abstract brackets filled with numbers, but the core engine rendering computer vision images and transforming neural network weights.`
+Teaching mathematics today means showing students that matrices are not just abstract brackets filled with numbers, but the core engine rendering computer vision images and transforming neural network weights.
+
+Core Pillars of Modern Mathematical Literacy:
+
+1. Linear Algebra for Neural Networks: Vectors, dot products, and matrix transformations represent the fundamental mathematics powering modern machine learning.
+2. Calculus for Optimization: Understanding partial derivatives and gradient descent transforms artificial intelligence from an opaque black box into transparent, actionable engineering.
+3. Algorithmic Problem Solving: Bridging formal mathematical proofs with practical Python implementations equips students to develop indigenous technology solutions.`
     }
   ],
   qualifications: [
@@ -198,9 +206,8 @@ class Store {
     if (!localStorage.getItem('to_projects')) {
       localStorage.setItem('to_projects', JSON.stringify(DEFAULT_DATA.projects));
     }
-    if (!localStorage.getItem('to_articles')) {
-      localStorage.setItem('to_articles', JSON.stringify(DEFAULT_DATA.articles));
-    }
+    // Always refresh articles with clean formatting
+    localStorage.setItem('to_articles', JSON.stringify(DEFAULT_DATA.articles));
     const storedQuals = localStorage.getItem('to_qualifications');
     if (!storedQuals) {
       localStorage.setItem('to_qualifications', JSON.stringify(DEFAULT_DATA.qualifications));
@@ -626,6 +633,100 @@ window.openProjectModal = function(id) {
   document.body.style.overflow = 'hidden';
 };
 
+function formatArticleContent(text) {
+  if (!text) return '';
+  const lines = text.trim().split('\n');
+  let html = '';
+  let inList = null;
+
+  lines.forEach(line => {
+    let trimmed = line.trim();
+    if (!trimmed) {
+      if (inList) {
+        html += `</${inList}>`;
+        inList = null;
+      }
+      return;
+    }
+
+    // Markdown / custom heading detection (### or ## or #)
+    if (trimmed.startsWith('### ') || trimmed.startsWith('## ') || trimmed.startsWith('# ')) {
+      if (inList) { html += `</${inList}>`; inList = null; }
+      const headingText = trimmed.replace(/^#+\s*/, '').replace(/\*\*/g, '').replace(/:$/, '').trim();
+      html += `<h4 style="font-size: 1.18rem; font-weight: 700; color: #0f172a; margin: 26px 0 12px 0; letter-spacing: -0.01em;">${headingText}</h4>`;
+      return;
+    }
+
+    // Numbered list items: "1. Item" or "1) Item"
+    const numMatch = trimmed.match(/^(\d+)[\.\)]\s*(.*)/);
+    if (numMatch) {
+      if (inList !== 'ol') {
+        if (inList) html += `</${inList}>`;
+        html += `<ol style="margin: 12px 0 20px 20px; padding-left: 10px; display: flex; flex-direction: column; gap: 10px; color: #334155; line-height: 1.7;">`;
+        inList = 'ol';
+      }
+      let rawContent = numMatch[2];
+      let itemContent = rawContent.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #0f172a;">$1</strong>');
+      if (!itemContent.includes('<strong') && itemContent.includes(':')) {
+        const colonIndex = itemContent.indexOf(':');
+        const title = itemContent.substring(0, colonIndex);
+        const rest = itemContent.substring(colonIndex + 1);
+        itemContent = `<strong style="color: #0f172a;">${title}:</strong>${rest}`;
+      }
+      itemContent = itemContent.replace(/\*\*/g, '').replace(/^#+\s*/, '');
+      html += `<li>${itemContent}</li>`;
+      return;
+    }
+
+    // Bullet list items: "- Item" or "• Item" or "* Item"
+    const bulletMatch = trimmed.match(/^[-•*]\s*(.*)/);
+    if (bulletMatch) {
+      if (inList !== 'ul') {
+        if (inList) html += `</${inList}>`;
+        html += `<ul style="margin: 12px 0 20px 20px; padding-left: 10px; display: flex; flex-direction: column; gap: 10px; color: #334155; line-height: 1.7; list-style-type: disc;">`;
+        inList = 'ul';
+      }
+      let rawContent = bulletMatch[1];
+      let itemContent = rawContent.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #0f172a;">$1</strong>');
+      if (!itemContent.includes('<strong') && itemContent.includes(':')) {
+        const colonIndex = itemContent.indexOf(':');
+        const title = itemContent.substring(0, colonIndex);
+        const rest = itemContent.substring(colonIndex + 1);
+        itemContent = `<strong style="color: #0f172a;">${title}:</strong>${rest}`;
+      }
+      itemContent = itemContent.replace(/\*\*/g, '').replace(/^#+\s*/, '');
+      html += `<li>${itemContent}</li>`;
+      return;
+    }
+
+    // Standalone headings ending with a colon or short titles without punctuation
+    if (trimmed.endsWith(':') && trimmed.length < 70 && !trimmed.includes('.')) {
+      if (inList) { html += `</${inList}>`; inList = null; }
+      const cleanHeading = trimmed.replace(/\*\*/g, '').replace(/^#+\s*/, '').replace(/:$/, '').trim();
+      html += `<h4 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin: 24px 0 10px 0;">${cleanHeading}</h4>`;
+      return;
+    }
+
+    // Regular paragraph
+    if (inList) {
+      html += `</${inList}>`;
+      inList = null;
+    }
+
+    let formattedText = trimmed
+      .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #0f172a;">$1</strong>')
+      .replace(/\*\*/g, '')
+      .replace(/^#+\s*/, '');
+    html += `<p style="margin-bottom: 16px; color: #334155; line-height: 1.8; font-size: 1rem;">${formattedText}</p>`;
+  });
+
+  if (inList) {
+    html += `</${inList}>`;
+  }
+
+  return html;
+}
+
 window.openArticleModal = function(id) {
   const articles = store.getArticles();
   const art = articles.find(a => a.id === id);
@@ -635,16 +736,17 @@ window.openArticleModal = function(id) {
   const body = document.getElementById('genericModalBody');
 
   body.innerHTML = `
-    <div style="margin-bottom: 20px;">
+    <div style="margin-bottom: 24px;">
+      <span class="insight-cat" style="margin-bottom: 10px; display: inline-block;">${art.category}</span>
       <h2 style="font-size: 1.7rem; font-weight: 800; color: #09090b; line-height: 1.3;">${art.title}</h2>
       <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px; font-weight: 500;">Published by Temitayo Oyedeji · ${art.date} · ${art.readTime}</div>
     </div>
 
-    <div style="color: #334155; font-size: 1rem; line-height: 1.8; white-space: pre-line;">
-      ${art.content}
+    <div style="color: #334155; font-size: 1rem; line-height: 1.8;">
+      ${formatArticleContent(art.content)}
     </div>
 
-    <div style="margin-top: 32px; border-top: 1px solid var(--border-light); padding-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+    <div style="margin-top: 32px; border-top: 1px solid var(--border-light); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
       <span style="font-size: 0.85rem; color: #64748b;">Author: Temitayo Oyedeji | UAV HUB SYSTEMS</span>
       <a href="#contact" class="btn btn-primary btn-sm" onclick="closeAllModals()">Reach Out / Collaborate</a>
     </div>
