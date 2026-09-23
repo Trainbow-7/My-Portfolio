@@ -2284,70 +2284,41 @@ ul, ol {
   object-fit: contain;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 1024px) {
-  .hero-grid, .about-grid, .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  .hero-visual {
-    margin-top: 10px;
-  }
-  .portrait-floating-badge.badge-top {
-    left: 0;
-  }
-  .portrait-floating-badge.badge-bottom {
-    right: 0;
-  }
-  .process-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+/* ==========================================================================
+   Comprehensive Mobile & Tablet Responsiveness
+   Breakpoints: 
+   - 1024px: Tablets (iPad Pro, iPad Air, Android Tablets)
+   - 768px: Mobile Landscape & Standard Smartphones
+   - 480px: Compact Mobile Phones (iPhone SE, Galaxy, Pixel)
+   - 360px: Smallest Viewport Safety
+   ========================================================================== */
+
+/* Universal Overflow Protection */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 2.3rem;
-  }
-  .hero-metrics {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .hero-portrait-card {
-    max-width: 330px;
-  }
-  .portrait-badges-dock {
-    grid-template-columns: 1fr;
-    bottom: 8px;
-    left: 8px;
-    right: 8px;
-    gap: 6px;
-  }
-  .portrait-compact-badge {
-    padding: 5px 8px;
-  }
-  .portrait-floating-badge {
-    padding: 8px 14px;
-    gap: 10px;
-  }
-  .floating-badge-icon {
-    width: 30px;
-    height: 30px;
-  }
-  .floating-badge-icon svg {
-    width: 16px;
-    height: 16px;
-  }
-  .floating-badge-title {
-    font-size: 0.78rem;
-  }
-  .floating-badge-sub {
-    font-size: 0.7rem;
-  }
+.mobile-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.mobile-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Tablets (1024px and below) */
+@media (max-width: 1024px) {
+  /* Navigation */
   .mobile-toggle {
     display: flex;
   }
+
   .nav-menu {
     position: fixed;
     top: var(--header-height);
@@ -2360,62 +2331,491 @@ ul, ol {
     -webkit-backdrop-filter: blur(20px);
     flex-direction: column;
     align-items: stretch;
-    padding: 20px 24px 32px 24px;
+    padding: 24px;
     gap: 12px;
     border-bottom: 1px solid var(--border-light);
     transform: translateY(-150%);
     transition: transform 0.35s ease;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 20px 30px rgba(9, 9, 11, 0.1);
+    z-index: 999;
   }
+
   .nav-menu.open {
     transform: translateY(0);
   }
+
   .nav-item-dropdown {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
   }
+
   .nav-dropdown-btn {
     width: 100%;
     justify-content: space-between;
-    padding: 6px 0;
+    padding: 8px 0;
+    font-size: 0.95rem;
   }
+
   .nav-dropdown-menu {
     position: static;
-    transform: none;
+    transform: none !important;
     width: 100%;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
     box-shadow: none;
     background: var(--bg-secondary);
     border: 1px solid var(--border-light);
     border-radius: var(--radius-md);
     margin-top: 6px;
-    padding: 6px;
+    padding: 8px;
+    display: none;
   }
-  .nav-item-dropdown:hover .nav-dropdown-menu {
-    transform: none;
+
+  .nav-item-dropdown.active .nav-dropdown-menu {
+    display: flex;
   }
+
+  /* Layout Grids */
+  .hero-grid,
+  .about-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-visual {
+    margin: 10px auto 0 auto;
+    max-width: 440px;
+  }
+
+  .portrait-floating-badge.badge-top {
+    left: 0;
+  }
+
+  .portrait-floating-badge.badge-bottom {
+    right: 0;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .problem-solution-grid,
+  .document-grid,
+  .insights-grid,
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .process-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+
+  .uavhub-title {
+    font-size: 2.3rem;
+  }
+
+  .uavhub-logo-showcase {
+    padding: 20px 32px;
+    max-width: 460px;
+  }
+
+  .uavhub-logo-img-large {
+    height: 120px;
+    max-height: 135px;
+  }
+}
+
+/* Mobile Devices (768px and below) */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 70px;
+  }
+
+  .section-padding {
+    padding: 64px 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding-top: calc(var(--header-height) + 28px);
+    padding-bottom: 60px;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+    line-height: 1.25;
+  }
+
+  .hero-metrics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .hero-portrait-card {
+    max-width: 330px;
+    margin: 0 auto;
+  }
+
+  .portrait-badges-dock {
+    grid-template-columns: 1fr;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    gap: 6px;
+  }
+
+  .portrait-compact-badge {
+    padding: 5px 8px;
+  }
+
+  .portrait-floating-badge {
+    padding: 8px 14px;
+    gap: 10px;
+  }
+
+  .floating-badge-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .floating-badge-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .floating-badge-title {
+    font-size: 0.78rem;
+  }
+
+  .floating-badge-sub {
+    font-size: 0.7rem;
+  }
+
+  /* Full Width Single Columns on Mobile */
+  .projects-grid,
+  .problem-solution-grid,
+  .document-grid,
+  .insights-grid,
+  .services-grid,
+  .expertise-grid,
+  .about-pillars,
+  .process-grid,
+  .form-row,
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* UAV Enterprise */
+  .uavhub-header-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .uavhub-title {
+    font-size: 2rem;
+  }
+
+  .uavhub-desc {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+
   .uavhub-logo-showcase {
     padding: 16px 20px;
     max-width: 100%;
   }
+
   .uavhub-logo-img-large {
-    height: 110px;
-    max-height: 125px;
+    height: 100px;
+    max-height: 115px;
   }
-  .form-row {
-    grid-template-columns: 1fr;
+
+  /* Contact Form */
+  .contact-form-container {
+    padding: 24px 18px;
   }
-  .process-grid {
-    grid-template-columns: 1fr;
+
+  /* Modals */
+  .modal-overlay {
+    padding: 14px;
   }
-  .footer-grid {
-    grid-template-columns: 1fr;
+
+  .modal-content {
+    padding: 24px 18px;
+    max-height: 90vh;
+    border-radius: var(--radius-lg);
   }
-  .uavhub-header-flex {
+
+  .modal-close {
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+  }
+
+  /* Admin CRM Tables */
+  .admin-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+
+  #adminEnquiriesTableContainer,
+  #adminProjectsTableContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    display: block;
+  }
+
+  .admin-table {
+    min-width: 580px;
+  }
+}
+
+/* Compact Smartphones (480px and below) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .section-padding {
+    padding: 48px 0;
+  }
+
+  .section-title {
+    font-size: 1.7rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+  }
+
+  /* Brand Header */
+  .brand-name {
+    font-size: 1.05rem;
+  }
+
+  .brand-tag {
+    font-size: 0.64rem;
+  }
+
+  .logo-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+  }
+
+  .nav-actions .btn-sm {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+  }
+
+  /* Hero Section */
+  .hero-title {
+    font-size: 1.85rem;
+    line-height: 1.25;
+  }
+
+  .hero-lead {
+    font-size: 0.95rem;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .metric-item {
+    padding: 12px 8px;
+    border-radius: var(--radius-md);
+  }
+
+  .metric-number {
+    font-size: 1.5rem;
+  }
+
+  .metric-label {
+    font-size: 0.72rem;
+  }
+
+  .hero-portrait-card {
+    max-width: 290px;
+  }
+
+  /* Project Filters */
+  .project-filters {
+    gap: 6px;
+  }
+
+  .filter-btn {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .project-card {
+    border-radius: var(--radius-lg);
+  }
+
+  .project-content {
+    padding: 18px;
+  }
+
+  /* Document Cards */
+  .doc-card {
+    padding: 18px 14px;
     flex-direction: column;
     align-items: flex-start;
+    gap: 14px;
+    min-height: auto;
+  }
+
+  .doc-actions {
+    width: 100%;
+  }
+
+  .doc-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* UAV Section */
+  .uavhub-banner {
+    padding: 36px 14px;
+    border-radius: var(--radius-lg);
+  }
+
+  .uavhub-title {
+    font-size: 1.65rem;
+  }
+
+  .uavhub-motto {
+    font-size: 0.95rem;
+  }
+
+  .uavhub-desc {
+    font-size: 0.92rem;
+    margin-bottom: 24px;
+  }
+
+  .uavhub-logo-showcase {
+    padding: 14px 18px;
+    border-radius: 14px;
+  }
+
+  .uavhub-logo-img-large {
+    height: 75px;
+    max-height: 85px;
+  }
+
+  .uavhub-cta-group.justify-center {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .uavhub-cta-group.justify-center .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .domain-pill {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+
+  /* Contact Section */
+  .contact-form-container {
+    padding: 18px 12px;
+    border-radius: var(--radius-lg);
+  }
+
+  .form-control {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .form-group {
+    margin-bottom: 14px;
+  }
+
+  /* Modals */
+  .modal-overlay {
+    padding: 8px;
+  }
+
+  .modal-content {
+    padding: 18px 14px;
+    border-radius: var(--radius-lg);
+    max-height: 92vh;
+  }
+
+  .modal-close {
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 1.1rem;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 40px 0 24px 0;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+}
+
+/* Small Viewports (360px and below) */
+@media (max-width: 360px) {
+  .hero-title {
+    font-size: 1.65rem;
+  }
+
+  .brand-tag {
+    display: none;
+  }
+
+  .hero-metrics {
+    grid-template-columns: 1fr;
   }
 }

@@ -374,14 +374,17 @@ function initNavbar() {
   });
 
   if (mobileToggle && navMenu) {
-    mobileToggle.addEventListener('click', () => {
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       navMenu.classList.toggle('open');
+      mobileToggle.classList.toggle('active');
     });
 
     // Close menu when clicking standard links or dropdown items
     document.querySelectorAll('.nav-link:not(.nav-dropdown-btn), .dropdown-item').forEach(link => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('open');
+        mobileToggle.classList.remove('active');
       });
     });
 
@@ -390,12 +393,29 @@ function initNavbar() {
       btn.addEventListener('click', (e) => {
         if (window.innerWidth <= 1024) {
           e.preventDefault();
+          e.stopPropagation();
           const parent = btn.closest('.nav-item-dropdown');
           if (parent) {
             parent.classList.toggle('active');
           }
         }
       });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (navMenu.classList.contains('open') && !navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+        navMenu.classList.remove('open');
+        mobileToggle.classList.remove('active');
+      }
+    });
+
+    // Close menu on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+        navMenu.classList.remove('open');
+        mobileToggle.classList.remove('active');
+      }
     });
   }
 }
