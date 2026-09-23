@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OYEDEJI TEMITAYO SAMSON - CV</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    html, body {
+      font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      margin: 0 auto;
+      padding: 0;
+      font-size: 8.7pt;
+      line-height: 1.34;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    .header {
+      background-color: #15243b;
+      color: #ffffff;
+      padding: 15px 24px 12px 24px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 24pt;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      margin-bottom: 3px;
+      color: #ffffff;
+      text-transform: uppercase;
+      line-height: 1.05;
+    }
+
+    .header .subtitle {
+      font-size: 9.8pt;
+      font-weight: 600;
+      color: #eab338;
+      letter-spacing: 0.5px;
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      display: flex;
+      padding: 14px 20px 12px 20px;
+      gap: 18px;
+      height: calc(297mm - 72px);
+      justify-content: space-between;
+    }
+
+    /* LEFT SIDEBAR */
+    .left-col {
+      width: 30%;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .profile-photo-wrapper {
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 175px;
+      border-radius: 5px;
+      object-fit: cover;
+      object-position: center 12%;
+      border: 1.5px solid #cbd5e1;
+      display: block;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+    }
+
+    .sidebar-section {
+      margin-bottom: 0px;
+    }
+
+    .sidebar-title {
+      font-size: 9.4pt;
+      font-weight: 800;
+      color: #15243b;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 5px;
+      padding-bottom: 2px;
+      border-bottom: 1.5px solid #cbd5e1;
+    }
+
+    .contact-item {
+      font-size: 8.4pt;
+      color: #1e293b;
+      margin-bottom: 3.5px;
+      word-break: break-word;
+      line-height: 1.3;
+    }
+
+    .contact-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .contact-item a {
+      color: #0369a1;
+      text-decoration: none;
+    }
+
+    .edu-item {
+      margin-bottom: 6px;
+    }
+
+    .edu-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .edu-degree {
+      font-size: 8.7pt;
+      font-weight: 700;
+      color: #15243b;
+      line-height: 1.22;
+    }
+
+    .edu-school {
+      font-size: 8.2pt;
+      color: #334155;
+      line-height: 1.22;
+      margin-top: 1px;
+    }
+
+    .edu-year {
+      font-size: 8.1pt;
+      color: #475569;
+      font-weight: 500;
+    }
+
+    .cert-list, .tools-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .cert-list li, .tools-list li {
+      position: relative;
+      padding-left: 11px;
+      font-size: 8.3pt;
+      color: #1e293b;
+      margin-bottom: 4px;
+      line-height: 1.28;
+    }
+
+    .cert-list li:last-child, .tools-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .cert-list li::before, .tools-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #15243b;
+      font-weight: bold;
+      font-size: 9pt;
+      line-height: 1;
+      top: 0px;
+    }
+
+    .tool-category {
+      font-weight: 700;
+      color: #15243b;
+    }
+
+    /* RIGHT CONTENT */
+    .right-col {
+      width: 68%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .section {
+      margin-bottom: 0px;
+    }
+
+    .section-title {
+      font-size: 9.4pt;
+      font-weight: 800;
+      color: #15243b;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 4px;
+      padding-bottom: 2px;
+      border-bottom: 1.5px solid #718096;
+    }
+
+    .profile-text {
+      font-size: 8.5pt;
+      color: #1e293b;
+      text-align: justify;
+      line-height: 1.34;
+    }
+
+    .exp-item {
+      margin-bottom: 5px;
+    }
+
+    .exp-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.5px;
+    }
+
+    .exp-role {
+      font-size: 8.7pt;
+      font-weight: 700;
+      color: #15243b;
+      line-height: 1.22;
+      flex: 1;
+    }
+
+    .exp-date {
+      font-size: 8.3pt;
+      font-weight: 700;
+      color: #475569;
+      white-space: nowrap;
+      margin-left: 8px;
+    }
+
+    .bullet-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .bullet-list li {
+      position: relative;
+      padding-left: 11px;
+      font-size: 8.3pt;
+      color: #1e293b;
+      margin-bottom: 1.5px;
+      line-height: 1.27;
+    }
+
+    .bullet-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #15243b;
+      font-weight: bold;
+      font-size: 9pt;
+      line-height: 1;
+      top: 0px;
+    }
+
+    .uav-summary-text {
+      font-size: 8.5pt;
+      color: #1e293b;
+      line-height: 1.33;
+      text-align: justify;
+    }
+
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 14px;
+      row-gap: 5px;
+      margin-top: 2px;
+    }
+
+    .expertise-col {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .expertise-block {
+      margin-bottom: 0px;
+    }
+
+    .expertise-category-title {
+      font-size: 8.6pt;
+      font-weight: 700;
+      color: #15243b;
+      margin-bottom: 1.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <h1>OYEDEJI TEMITAYO SAMSON</h1>
+    <div class="subtitle">Educator | UAV & Drone Technology Professional | AI/ML Practitioner</div>
+  </header>
+
+  <!-- CONTAINER -->
+  <div class="container">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="left-col">
+      <div class="profile-photo-wrapper">
+        <img src="assets/temitayo-oyedeji.png" alt="Temitayo Samson Oyedeji" class="profile-photo">
+      </div>
+
+      <!-- CONTACT -->
+      <div class="sidebar-section">
+        <div class="sidebar-title">CONTACT</div>
+        <div class="contact-item"><strong>Phone:</strong> 08035472186</div>
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:tplusonice@gmail.com">tplusonice@gmail.com</a></div>
+        <div class="contact-item"><strong>Location:</strong> Abeokuta, Ogun State, Nigeria</div>
+        <div class="contact-item"><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/temitayo-oyedeji-448439293" target="_blank">linkedin.com/in/temitayo-oyedeji</a></div>
+      </div>
+
+      <!-- EDUCATION -->
+      <div class="sidebar-section">
+        <div class="sidebar-title">EDUCATION</div>
+        <div class="edu-item">
+          <div class="edu-degree">B.Sc. Mathematics Education</div>
+          <div class="edu-school">University of Lagos</div>
+          <div class="edu-year">2020</div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-degree">Diploma in Computer Studies</div>
+          <div class="edu-school">Obafemi Awolowo University, Ile-Ife</div>
+          <div class="edu-year">2005</div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-degree">Senior Secondary School Certificate</div>
+          <div class="edu-year">2003</div>
+        </div>
+      </div>
+
+      <!-- CERTIFICATIONS -->
+      <div class="sidebar-section">
+        <div class="sidebar-title">CERTIFICATIONS</div>
+        <ul class="cert-list">
+          <li>Teachers Registration Council of Nigeria (TRCN) Certified Teacher</li>
+          <li>Certified UAV Commercial Pilot</li>
+          <li>Artificial Intelligence & Machine Learning Certification</li>
+          <li>Python Programming & Data Analysis Certification</li>
+        </ul>
+      </div>
+
+      <!-- TECHNICAL TOOLKIT -->
+      <div class="sidebar-section">
+        <div class="sidebar-title">TECHNICAL TOOLKIT</div>
+        <ul class="tools-list">
+          <li><span class="tool-category">AI & Code:</span> Python, PyTorch, OpenCV, YOLO, Scikit-Learn</li>
+          <li><span class="tool-category">UAV & GIS:</span> QGIS, Pix4D, Mission Planner, DJI Terra</li>
+          <li><span class="tool-category">Hardware:</span> Multicopter Assembly, Avionics, Arduino, CAD</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- RIGHT MAIN CONTENT -->
+    <main class="right-col">
+
+      <!-- PROFESSIONAL PROFILE -->
+      <section class="section">
+        <div class="section-title">PROFESSIONAL PROFILE</div>
+        <p class="profile-text">
+          Versatile educator, UAV/drone technology professional, and AI/ML practitioner with over 15 years of experience in Mathematics education and emerging technology innovation. TRCN-certified teacher and certified UAV pilot with hands-on expertise in drone piloting, building, aerial photography, mapping, and STEM education. Co-Founder and Managing Director/COO of UAV Hub Systems Limited, a Nigerian technology company focused on UAV/drone technology, AI/ML engineering, STEM education, and AgriTech solutions. Passionate about connecting traditional education with emerging technologies to create practical learning experiences.
+        </p>
+      </section>
+
+      <!-- PROFESSIONAL EXPERIENCE -->
+      <section class="section">
+        <div class="section-title">PROFESSIONAL EXPERIENCE</div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <div class="exp-role">Co-Founder | Managing Director / COO | UAV Hub Systems Limited, Nigeria</div>
+            <div class="exp-date">Current</div>
+          </div>
+          <ul class="bullet-list">
+            <li>Drive business strategy, operations, and client engagement for a UAV/drone technology and AI/ML solutions company</li>
+            <li>Oversee UAV/drone project deployment, including drone building, customization, and maintenance</li>
+            <li>Lead training programmes, STEM education initiatives, and technology demonstrations</li>
+            <li>Develop AI/ML and AgriTech solutions, building partnerships to drive innovation in education and agriculture</li>
+          </ul>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <div class="exp-role">Mathematics Teacher | First Golden Grace International School, Oluwo, Abeokuta, Nigeria</div>
+            <div class="exp-date">2021 – 2025</div>
+          </div>
+          <ul class="bullet-list">
+            <li>Planned and delivered curriculum-aligned Mathematics lessons</li>
+            <li>Assessed student progress and developed instructional materials</li>
+            <li>Mentored students, improving academic outcomes</li>
+          </ul>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <div class="exp-role">Mathematics & Further Mathematics Teacher | Godly Heritage International School, Saraki Adigbe, Abeokuta, Nigeria</div>
+            <div class="exp-date">2019 – 2021</div>
+          </div>
+          <ul class="bullet-list">
+            <li>Delivered Mathematics and Further Mathematics instruction, including lesson planning and assessment</li>
+            <li>Conducted tests, examinations, and provided academic guidance and remedial support</li>
+          </ul>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <div class="exp-role">Mathematics Teacher, SS2 & SS3 | African Church Grammar School, Abeokuta, Nigeria</div>
+            <div class="exp-date">2016 – 2019</div>
+          </div>
+          <ul class="bullet-list">
+            <li>Delivered Mathematics instruction to SS2 and SS3 students, aligning lessons with WAEC/NECO curriculum standards</li>
+            <li>Prepared students for external examinations through structured revision and practice sessions</li>
+            <li>Assessed assignments, tests, and examinations, providing feedback to improve performance</li>
+            <li>Provided academic guidance and mentorship to senior secondary students</li>
+          </ul>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <div class="exp-role">Mathematics Teacher, SS1 & SS2 | St Leo's College, Onikoko, Abeokuta, Nigeria</div>
+            <div class="exp-date">2012 – 2015</div>
+          </div>
+          <ul class="bullet-list">
+            <li>Delivered Mathematics instruction to SS1 and SS2 students, building foundational skills for the senior secondary curriculum</li>
+            <li>Developed lesson plans, teaching aids, and classroom assessments</li>
+            <li>Monitored student progress and provided remedial support where needed</li>
+            <li>Maintained accurate academic records and reported on student performance</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- UAV & DRONE TECHNOLOGY EXPERIENCE -->
+      <section class="section">
+        <div class="section-title">UAV & DRONE TECHNOLOGY EXPERIENCE</div>
+        <p class="uav-summary-text">
+          Certified UAV pilot with hands-on experience in drone operations, assembly, customization, aerial mapping, photography, videography, and maintenance, applied across education, security, cinematography, agriculture, and inspection.
+        </p>
+      </section>
+
+      <!-- CORE AREAS OF EXPERTISE -->
+      <section class="section">
+        <div class="section-title">CORE AREAS OF EXPERTISE</div>
+        <div class="expertise-grid">
+          <div class="expertise-col">
+            <div class="expertise-block">
+              <div class="expertise-category-title">Education & Teaching</div>
+              <ul class="bullet-list">
+                <li>Mathematics & Further Mathematics instruction</li>
+                <li>Curriculum design & lesson planning</li>
+                <li>STEM education & student mentoring</li>
+              </ul>
+            </div>
+            <div class="expertise-block">
+              <div class="expertise-category-title">UAV & Drone Technology</div>
+              <ul class="bullet-list">
+                <li>Piloting, operations & maintenance</li>
+                <li>Drone building & customization</li>
+                <li>Aerial photography, mapping & surveying</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="expertise-col">
+            <div class="expertise-block">
+              <div class="expertise-category-title">AI / ML & Data</div>
+              <ul class="bullet-list">
+                <li>Python programming & data analysis</li>
+                <li>Machine learning & computer vision</li>
+                <li>Predictive modelling</li>
+              </ul>
+            </div>
+            <div class="expertise-block">
+              <div class="expertise-category-title">Technology & Innovation</div>
+              <ul class="bullet-list">
+                <li>Project coordination & partnership development</li>
+                <li>AgriTech & precision agriculture</li>
+                <li>Research & development</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+</body>
+</html>
