@@ -737,6 +737,159 @@ ul, ol {
   transform: scale(1.02);
 }
 
+/* Compact Audio Profile Dock on Bottom Layer of Image */
+.portrait-audio-dock {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background: linear-gradient(180deg, rgba(9, 17, 24, 0) 0%, rgba(9, 17, 24, 0.8) 32%, rgba(9, 17, 24, 0.96) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 14px 14px 10px 14px;
+  border-top: 1px solid rgba(45, 212, 191, 0.28);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.portrait-audio-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.portrait-audio-play-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand-teal) 0%, var(--brand-teal-bright) 100%);
+  color: #ffffff;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(27, 117, 125, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portrait-audio-play-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(45, 212, 191, 0.55);
+}
+
+.portrait-audio-meta {
+  flex-grow: 1;
+  min-width: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.portrait-audio-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.portrait-audio-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--brand-teal-light);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.is-playing .portrait-audio-dot {
+  background-color: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.portrait-audio-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+.portrait-audio-loop-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #3dc2ce;
+  background: rgba(27, 117, 125, 0.35);
+  border: 1px solid rgba(61, 194, 206, 0.3);
+  padding: 1px 5px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.portrait-audio-sub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.portrait-audio-time {
+  font-size: 0.66rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.portrait-audio-mute-btn {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.9);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.portrait-audio-mute-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.portrait-audio-progress-bar {
+  width: 100%;
+  height: 3.5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  margin-top: 8px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.15s ease;
+}
+
+.portrait-audio-progress-bar:hover {
+  height: 5px;
+}
+
+.portrait-audio-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #1b757d, #3dc2ce);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+
 /* Unified Compact Credentials Dock */
 .portrait-badges-dock {
   position: absolute;
@@ -2843,3 +2996,77 @@ html, body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   AUDIO PROFILE PLAYER & HERO AUDIO BUTTON (UAV HUB BRAND DESIGN)
+   ========================================================================== */
+
+/* Hero Audio Button */
+.btn-teal-glow {
+  background: linear-gradient(135deg, rgba(27, 117, 125, 0.1) 0%, rgba(34, 146, 156, 0.18) 100%);
+  color: var(--brand-teal);
+  border: 1px solid var(--brand-teal-border);
+  box-shadow: 0 4px 14px rgba(27, 117, 125, 0.12);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-teal-glow:hover {
+  background: linear-gradient(135deg, var(--brand-teal) 0%, var(--brand-teal-vibrant) 100%);
+  color: #ffffff;
+  border-color: var(--brand-teal);
+  box-shadow: 0 8px 24px rgba(27, 117, 125, 0.35);
+  transform: translateY(-2px);
+}
+
+.audio-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.audio-hero-btn .audio-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.audio-pulse-indicator,
+.audio-mini-visualizer {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 14px;
+}
+
+.eq-mini-bar {
+  width: 2.5px;
+  height: 4px;
+  background-color: currentColor;
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+
+.is-playing .audio-pulse-indicator .eq-mini-bar:nth-child(1),
+.is-playing .audio-mini-visualizer .eq-mini-bar:nth-child(1) {
+  animation: eqBounceMini 0.8s ease-in-out infinite alternate;
+}
+
+.is-playing .audio-pulse-indicator .eq-mini-bar:nth-child(2),
+.is-playing .audio-mini-visualizer .eq-mini-bar:nth-child(2) {
+  animation: eqBounceMini 0.95s ease-in-out 0.2s infinite alternate;
+}
+
+.is-playing .audio-pulse-indicator .eq-mini-bar:nth-child(3),
+.is-playing .audio-mini-visualizer .eq-mini-bar:nth-child(3) {
+  animation: eqBounceMini 0.7s ease-in-out 0.4s infinite alternate;
+}
+
+@keyframes eqBounceMini {
+  0% { height: 4px; }
+  100% { height: 14px; }
+}
+
+

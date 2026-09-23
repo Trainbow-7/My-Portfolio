@@ -209,6 +209,23 @@
         <div class="hero-cta-group">
           <a href="#expertise" class="btn btn-primary btn-lg">Explore My Expertise</a>
           <a href="https://wa.me/2348035472186?text=Hi%20Temitayo%2C%20I%20came%20across%20your%20portfolio%20and%20I%20would%20like%20to%20connect%20regarding%20UAV%20and%20drone%20services%2C%20STEM%20and%20AI%20education%2C%20AI%20and%20machine%20learning%20projects%2C%20or%20a%20potential%20collaboration.%20Could%20we%20talk%3F" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg">Work With Me</a>
+          <button id="heroAudioToggleBtn" class="btn btn-teal-glow btn-lg audio-hero-btn" onclick="toggleAudioProfile()" type="button" aria-label="Play Executive Audio Profile">
+            <span class="audio-btn-icon">
+              <svg class="audio-icon-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <svg class="audio-icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+            </span>
+            <span class="audio-btn-text">Audio Profile</span>
+            <span class="audio-pulse-indicator">
+              <span class="eq-mini-bar"></span>
+              <span class="eq-mini-bar"></span>
+              <span class="eq-mini-bar"></span>
+            </span>
+          </button>
           <a href="assets/Temitayo_Oyedeji_Professional_CV.pdf" download="Temitayo_Oyedeji_Professional_CV.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-sky btn-lg" style="display: inline-flex; align-items: center; gap: 8px;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -245,6 +262,55 @@
           <div class="portrait-glow"></div>
           <div class="portrait-frame">
             <img src="assets/temitayo-oyedeji.png" alt="Temitayo Oyedeji - Educator, UAV Professional & AI/ML Practitioner" class="hero-portrait-img" loading="eager" />
+            
+            <!-- Compact Audio Profile Dock on Bottom Layer of Image -->
+            <div class="portrait-audio-dock" id="portraitAudioDock">
+              <div class="portrait-audio-inner">
+                <button class="portrait-audio-play-btn" id="portraitAudioPlayBtn" onclick="toggleAudioProfile()" type="button" aria-label="Toggle Executive Audio Profile">
+                  <svg class="audio-ctrl-play" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  <svg class="audio-ctrl-pause" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                  </svg>
+                </button>
+
+                <div class="portrait-audio-meta" onclick="toggleAudioProfile()">
+                  <div class="portrait-audio-title-row">
+                    <span class="portrait-audio-dot"></span>
+                    <span class="portrait-audio-label">Audio Profile</span>
+                    <span class="portrait-audio-loop-tag" title="Auto-repeat continuously enabled">🔁 Auto-Repeat</span>
+                  </div>
+                  <div class="portrait-audio-sub">
+                    <span class="portrait-audio-time" id="portraitAudioTime">0:00 / 0:00</span>
+                    <div class="audio-pulse-indicator">
+                      <span class="eq-mini-bar"></span>
+                      <span class="eq-mini-bar"></span>
+                      <span class="eq-mini-bar"></span>
+                      <span class="eq-mini-bar"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <button class="portrait-audio-mute-btn" id="portraitAudioMuteBtn" onclick="toggleAudioMute()" type="button" aria-label="Mute or Unmute">
+                  <svg class="vol-icon-high" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  </svg>
+                  <svg class="vol-icon-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Slim Progress Bar along bottom of portrait frame -->
+              <div class="portrait-audio-progress-bar" id="portraitAudioProgressBar" onclick="seekAudio(event)" title="Click to seek audio">
+                <div class="portrait-audio-progress-fill" id="portraitAudioProgressFill"></div>
+              </div>
+            </div>
           </div>
           <!-- Executive Name Plate -->
           <div class="portrait-name-plate">
@@ -1430,6 +1496,15 @@
       </form>
     </div>
   </div>
+
+  <!-- Background Audio Profile with Infinite Auto-Repeat Loop -->
+  <audio id="audioProfile" preload="auto" loop playsinline>
+    <source src="assets/lv_0_20260923191630.mp4" type="video/mp4" />
+    <source src="assets/lv_0_20260923191630.mp4" type="audio/mp4" />
+    <source src="assets/lv_0_20260923191630.mp3" type="audio/mpeg" />
+    <source src="assets/audio-profile.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
 
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>

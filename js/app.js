@@ -1447,3 +1447,221 @@ window.handleDocRequestSubmit = function(e) {
     window.location.href = mailtoUrl;
   }, 400);
 };
+
+// ==========================================================================
+// AUDIO EXECUTIVE PROFILE PLAYER & CONTINUOUS AUTO-REPEAT CONTROLLER
+// ==========================================================================
+
+let isAudioProfileInitialized = false;
+
+function initAudioProfilePlayer() {
+  if (isAudioProfileInitialized) return;
+  isAudioProfileInitialized = true;
+
+  const audio = document.getElementById('audioProfile');
+  const heroBtn = document.getElementById('heroAudioToggleBtn');
+
+  // Portrait image dock elements
+  const portraitDock = document.getElementById('portraitAudioDock');
+  const portraitPlayBtn = document.getElementById('portraitAudioPlayBtn');
+  const portraitMuteBtn = document.getElementById('portraitAudioMuteBtn');
+  const portraitTimeEl = document.getElementById('portraitAudioTime');
+  const portraitProgressFill = document.getElementById('portraitAudioProgressFill');
+
+  if (!audio) return;
+
+  // Enforce auto-repeat loop attribute and ended listener fallback
+  audio.loop = true;
+  audio.addEventListener('ended', function() {
+    audio.currentTime = 0;
+    audio.play().catch(function(err) {
+      console.log('Audio loop restart notice:', err);
+    });
+  });
+
+  // Restore saved volume preference if available
+  const savedVolume = localStorage.getItem('temitayo_audio_volume');
+  if (savedVolume !== null) {
+    audio.volume = parseFloat(savedVolume);
+  } else {
+    audio.volume = 0.85;
+  }
+
+  // Format seconds to mm:ss helper
+  function formatTime(seconds) {
+    if (isNaN(seconds) || seconds === Infinity) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return mins + ':' + (secs < 10 ? '0' : '') + secs;
+  }
+
+  // Update playback UI State
+  function updatePlayState(isPlaying) {
+    if (portraitDock) {
+      if (isPlaying) {
+        portraitDock.classList.add('is-playing');
+      } else {
+        portraitDock.classList.remove('is-playing');
+      }
+    }
+
+    if (portraitPlayBtn) {
+      const playIcon = portraitPlayBtn.querySelector('.audio-ctrl-play');
+      const pauseIcon = portraitPlayBtn.querySelector('.audio-ctrl-pause');
+      if (playIcon && pauseIcon) {
+        playIcon.style.display = isPlaying ? 'none' : 'inline-block';
+        pauseIcon.style.display = isPlaying ? 'inline-block' : 'none';
+      }
+    }
+
+    if (heroBtn) {
+      if (isPlaying) {
+        heroBtn.classList.add('is-playing');
+      } else {
+        heroBtn.classList.remove('is-playing');
+      }
+      const playIcon = heroBtn.querySelector('.audio-icon-play');
+      const pauseIcon = heroBtn.querySelector('.audio-icon-pause');
+      const btnText = heroBtn.querySelector('.audio-btn-text');
+      if (playIcon && pauseIcon) {
+        playIcon.style.display = isPlaying ? 'none' : 'inline-block';
+        pauseIcon.style.display = isPlaying ? 'inline-block' : 'none';
+      }
+      if (btnText) {
+        btnText.textContent = isPlaying ? 'Pause Audio' : 'Audio Profile';
+      }
+    }
+  }
+
+  audio.addEventListener('play', function() {
+    updatePlayState(true);
+  });
+
+  audio.addEventListener('pause', function() {
+    updatePlayState(false);
+  });
+
+  audio.addEventListener('timeupdate', function() {
+    if (audio.duration) {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      if (portraitProgressFill) portraitProgressFill.style.width = percent + '%';
+      if (portraitTimeEl) {
+        portraitTimeEl.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+      }
+    }
+  });
+
+  audio.addEventListener('loadedmetadata', function() {
+    if (portraitTimeEl && audio.duration) {
+      portraitTimeEl.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+    }
+  });
+
+  // Autoplay handler with graceful interaction fallback
+  function startAutoplay() {
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(function() {
+        updatePlayState(true);
+      }).catch(function(error) {
+        // Modern browser autoplay policy prevented immediate unmuted playback
+        // Set one-time listener on user interaction to start playing smoothly
+        const startOnUserInteraction = function() {
+          audio.play().then(function() {
+            updatePlayState(true);
+          }).catch(function(e) {
+            console.log('Interaction play fallback notice:', e);
+          });
+          window.removeEventListener('click', startOnUserInteraction);
+          window.removeEventListener('touchstart', startOnUserInteraction);
+          window.removeEventListener('keydown', startOnUserInteraction);
+          window.removeEventListener('scroll', startOnUserInteraction);
+        };
+
+        window.addEventListener('click', startOnUserInteraction, { once: true, passive: true });
+        window.addEventListener('touchstart', startOnUserInteraction, { once: true, passive: true });
+        window.addEventListener('keydown', startOnUserInteraction, { once: true, passive: true });
+        window.addEventListener('scroll', startOnUserInteraction, { once: true, passive: true });
+      });
+    }
+  }
+
+  // Attempt initial playback
+  setTimeout(startAutoplay, 600);
+}
+
+// Global Audio Profile Control Functions
+window.toggleAudioProfile = function() {
+  const audio = document.getElementById('audioProfile');
+  if (!audio) return;
+
+  if (audio.paused) {
+    audio.play().then(function() {
+      if (typeof showToast === 'function' && !sessionStorage.getItem('audio_toast_shown')) {
+        showToast('🎙️ Playing Executive Audio Profile (Auto-Repeat ON)', 'info');
+        sessionStorage.setItem('audio_toast_shown', 'true');
+      }
+    }).catch(function(err) {
+      console.warn('Playback request error:', err);
+    });
+  } else {
+    audio.pause();
+  }
+};
+
+window.toggleAudioMute = function() {
+  const audio = document.getElementById('audioProfile');
+  const portraitMuteBtn = document.getElementById('portraitAudioMuteBtn');
+  if (!audio) return;
+
+  audio.muted = !audio.muted;
+
+  if (portraitMuteBtn) {
+    const volHigh = portraitMuteBtn.querySelector('.vol-icon-high');
+    const volMuted = portraitMuteBtn.querySelector('.vol-icon-muted');
+    if (volHigh && volMuted) {
+      volHigh.style.display = audio.muted ? 'none' : 'inline-block';
+      volMuted.style.display = audio.muted ? 'inline-block' : 'none';
+    }
+  }
+};
+
+window.setAudioVolume = function(val) {
+  const audio = document.getElementById('audioProfile');
+  if (!audio) return;
+  const num = parseFloat(val);
+  audio.volume = num;
+  audio.muted = (num === 0);
+  localStorage.setItem('temitayo_audio_volume', num.toString());
+
+  const portraitMuteBtn = document.getElementById('portraitAudioMuteBtn');
+  if (portraitMuteBtn) {
+    const volHigh = portraitMuteBtn.querySelector('.vol-icon-high');
+    const volMuted = portraitMuteBtn.querySelector('.vol-icon-muted');
+    if (volHigh && volMuted) {
+      volHigh.style.display = (audio.muted || num === 0) ? 'none' : 'inline-block';
+      volMuted.style.display = (audio.muted || num === 0) ? 'inline-block' : 'none';
+    }
+  }
+};
+
+window.seekAudio = function(e) {
+  const audio = document.getElementById('audioProfile');
+  const targetBar = e.currentTarget;
+  if (!audio || !targetBar || !audio.duration) return;
+
+  const rect = targetBar.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const fraction = Math.max(0, Math.min(1, clickX / rect.width));
+  audio.currentTime = fraction * audio.duration;
+};
+
+// Initialize on DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAudioProfilePlayer);
+} else {
+  initAudioProfilePlayer();
+}
+
+
+
