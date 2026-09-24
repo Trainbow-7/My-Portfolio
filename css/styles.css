@@ -2246,18 +2246,41 @@ ul, ol {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 48px;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 44px;
   margin-bottom: 40px;
+  align-items: start;
 }
 
 .footer-brand p {
   color: #94a3b8;
-  font-size: 0.95rem;
-  margin-top: 0;
+  font-size: 0.92rem;
+  margin: 0 0 16px 0;
   max-width: 100%;
-  line-height: 1.75;
-  text-align: justify;
+  line-height: 1.65;
+  text-align: left;
+}
+
+.footer-contact-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.86rem;
+  color: #cbd5e1;
+}
+
+.footer-contact-mini a {
+  color: #cbd5e1;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+}
+
+.footer-contact-mini a:hover {
+  color: var(--brand-teal-light);
+  padding-left: 3px;
 }
 
 .footer-heading {
