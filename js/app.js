@@ -139,6 +139,16 @@ Core Pillars of Modern Mathematical Literacy:
   ],
   qualifications: [
     {
+      id: 'qual-0',
+      title: 'M.Sc. Applied Mathematics',
+      institution: 'University of Lagos (UNILAG)',
+      year: '',
+      badge: 'Academic Degree',
+      grade: '',
+      description: 'Advanced postgraduate specialization in mathematical modeling, computational methods, numerical analysis, optimization techniques, and applied mathematical systems.',
+      credentialUrl: '#credential-unilag-msc'
+    },
+    {
       id: 'qual-1',
       title: 'B.Sc. Mathematics Education',
       institution: 'University of Lagos (UNILAG)',
@@ -168,8 +178,8 @@ Core Pillars of Modern Mathematical Literacy:
       description: 'Official statutory accreditation recognizing professional competence, ethics, and standard classroom pedagogy across primary, secondary, and tertiary levels.',
       credentialUrl: 'assets/trcn-certificate.jpg',
       certificateImage: 'assets/trcn-certificate.jpg',
-      regNumber: 'LA/R/13543',
-      certNumber: '1332802',
+      regNumber: 'LA/R/***43',
+      certNumber: '****802',
       issuedDate: 'March 5, 2020'
     },
     {
@@ -215,6 +225,10 @@ class Store {
       try {
         let parsedQuals = JSON.parse(storedQuals);
         let updated = false;
+        if (!parsedQuals.some(q => q.id === 'qual-0' || (q.title && q.title.includes('M.Sc.')))) {
+          parsedQuals.unshift(DEFAULT_DATA.qualifications[0]);
+          updated = true;
+        }
         if (parsedQuals.some(q => q.id === 'qual-3' || (q.title && q.title.includes('Google AI Essentials')))) {
           parsedQuals = parsedQuals.filter(q => q.id !== 'qual-3' && !(q.title && q.title.includes('Google AI Essentials')));
           updated = true;
@@ -241,14 +255,12 @@ class Store {
             }
           }
           if (q.id === 'qual-4') {
-            if (!q.certificateImage || q.credentialUrl === '#credential-trcn') {
-              q.credentialUrl = 'assets/trcn-certificate.jpg';
-              q.certificateImage = 'assets/trcn-certificate.jpg';
-              q.regNumber = 'LA/R/13543';
-              q.certNumber = '1332802';
-              q.issuedDate = 'March 5, 2020';
-              updated = true;
-            }
+            q.credentialUrl = 'assets/trcn-certificate.jpg';
+            q.certificateImage = 'assets/trcn-certificate.jpg';
+            q.regNumber = 'LA/R/***43';
+            q.certNumber = '****802';
+            q.issuedDate = 'March 5, 2020';
+            updated = true;
           }
           if (q.id === 'qual-5') {
             q.credentialUrl = 'assets/uk-caa-drone-flyer-id.pdf';
@@ -954,11 +966,11 @@ window.openCredentialModal = function(id) {
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 12px;">
             <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 10px 14px; text-align: center;">
               <div style="font-size: 0.75rem; text-transform: uppercase; color: #1e40af; font-weight: 700; letter-spacing: 0.5px;">Teacher Registration No.</div>
-              <div style="font-size: 1.05rem; font-weight: 800; color: #1d4ed8; font-family: var(--font-mono); margin-top: 2px;">${q.regNumber}</div>
+              <div style="font-size: 1.05rem; font-weight: 800; color: #1d4ed8; font-family: var(--font-mono); margin-top: 2px;" title="Masked for privacy — Official verification available via request">LA/R/***43</div>
             </div>
             <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-md); padding: 10px 14px; text-align: center;">
               <div style="font-size: 0.75rem; text-transform: uppercase; color: #166534; font-weight: 700; letter-spacing: 0.5px;">Certificate No.</div>
-              <div style="font-size: 1.05rem; font-weight: 800; color: #15803d; font-family: var(--font-mono); margin-top: 2px;">${q.certNumber}</div>
+              <div style="font-size: 1.05rem; font-weight: 800; color: #15803d; font-family: var(--font-mono); margin-top: 2px;" title="Masked for privacy — Official verification available via request">****802</div>
             </div>
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-md); padding: 10px 14px; text-align: center;">
               <div style="font-size: 0.75rem; text-transform: uppercase; color: #475569; font-weight: 700; letter-spacing: 0.5px;">Date of Certification</div>
@@ -977,12 +989,6 @@ window.openCredentialModal = function(id) {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
               Request CAC Certificate
             </button>
-            ${q.flyerVerification ? `
-              <a href="${q.flyerVerification}" target="_blank" rel="noopener" class="btn btn-outline-sky btn-sm" title="Verify on UK Civil Aviation Authority Register">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                Verify on UK CAA Register
-              </a>
-            ` : ''}
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 14px;">
@@ -1024,16 +1030,6 @@ window.openCredentialModal = function(id) {
     <div style="background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px;">
       <h4 style="font-size: 0.95rem; color: #09090b; margin-bottom: 8px; font-weight: 700;">Qualification Summary & Scope</h4>
       <p style="font-size: 0.95rem; color: #475569; line-height: 1.7;">${q.description}</p>
-    </div>
-
-    <div style="background: #f0fdf4; border: 1px dashed #22c55e; border-radius: var(--radius-md); padding: 16px; text-align: center; margin-bottom: 24px;">
-      <p style="font-size: 0.85rem; color: #15803d; font-weight: 600;">
-        ${isDronePilot 
-          ? 'Official proof of completion and registration certified by the United Kingdom Civil Aviation Authority (UK CAA).'
-          : (isTrcn
-            ? 'Official statutory credential record certified by the Teachers Registration Council of Nigeria under CAP T3 of 2004.'
-            : 'Official academic and professional accreditation verified by statutory educational and industry authorities.')}
-      </p>
     </div>
 
     <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">

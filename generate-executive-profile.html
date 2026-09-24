@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OYEDEJI TEMITAYO SAMSON - Executive Profile</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    html, body {
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      margin: 0 auto;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* ==================== EXECUTIVE HEADER ==================== */
+    .exec-header {
+      background: linear-gradient(135deg, #091528 0%, #10243e 55%, #152c4c 100%);
+      color: #ffffff;
+      padding: 13px 22px 11px 22px;
+      position: relative;
+      border-bottom: 3px solid #d97706;
+      flex-shrink: 0;
+    }
+
+    .exec-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .header-main {
+      flex: 1;
+    }
+
+    .exec-name {
+      font-size: 21pt;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: #ffffff;
+      text-transform: uppercase;
+      line-height: 1.05;
+      margin-bottom: 3px;
+    }
+
+    .exec-headline {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 4px;
+    }
+
+    .exec-title-badge {
+      background: rgba(217, 119, 6, 0.22);
+      border: 1px solid rgba(245, 158, 11, 0.55);
+      color: #fbbf24;
+      font-weight: 700;
+      font-size: 8.8pt;
+      padding: 1.5px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    .exec-company {
+      color: #f1f5f9;
+      font-size: 9.2pt;
+      font-weight: 700;
+    }
+
+    .exec-roles {
+      color: #94a3b8;
+      font-size: 8.6pt;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .exec-roles span {
+      color: #38bdf8;
+      font-weight: 600;
+    }
+
+    .header-contact-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 8.1pt;
+      color: #cbd5e1;
+      padding-top: 5px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .contact-pill svg {
+      color: #fbbf24;
+      flex-shrink: 0;
+    }
+
+    .contact-pill a {
+      color: #cbd5e1;
+      text-decoration: none;
+    }
+
+    /* HEADER PHOTO */
+    .header-media {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .header-photo-frame {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      border: 2px solid #d97706;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+      background: #1e293b;
+      flex-shrink: 0;
+    }
+
+    .header-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 12%;
+    }
+
+    /* ==================== BODY CONTAINER ==================== */
+    .exec-body {
+      flex: 1;
+      padding: 11px 22px 9px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 0;
+      gap: 9px;
+    }
+
+    /* INTRO SECTION */
+    .intro-card {
+      background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #0284c7;
+      border-radius: 6px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .intro-paragraph {
+      font-size: 9.3pt;
+      color: #334155;
+      line-height: 1.42;
+    }
+
+    .intro-paragraph strong {
+      color: #0f2444;
+      font-weight: 700;
+    }
+
+    /* SECTION TITLE */
+    .section-header-box {
+      background: #f1f5f9;
+      border-left: 3.5px solid #0284c7;
+      padding: 4px 9px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 7px;
+    }
+
+    .section-title-text {
+      font-size: 9.6pt;
+      font-weight: 800;
+      color: #0c1e38;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* CORE EXPERTISE GRID */
+    .expertise-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .expertise-chip {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 5px;
+      padding: 6.5px 10px;
+      font-size: 9.1pt;
+      font-weight: 700;
+      color: #0f2444;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+
+    .chip-bullet {
+      width: 6px;
+      height: 6px;
+      background: #0284c7;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* WHAT I DO LIST */
+    .what-i-do-container {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .what-i-do-list {
+      list-style: none;
+    }
+
+    .what-i-do-item {
+      padding: 5.5px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 9.1pt;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    .what-i-do-item:last-child {
+      border-bottom: none;
+    }
+
+    .item-icon-box {
+      width: 17px;
+      height: 17px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0284c7;
+      flex-shrink: 0;
+    }
+
+    /* PROFESSIONAL VISION */
+    .vision-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 9px 12px 8px 12px;
+    }
+
+    .vision-text {
+      font-size: 9.3pt;
+      color: #334155;
+      line-height: 1.38;
+      margin-bottom: 7px;
+    }
+
+    .vision-banner {
+      background: linear-gradient(135deg, #091528 0%, #10243e 100%);
+      color: #ffffff;
+      border: 1px solid #d97706;
+      border-radius: 5px;
+      padding: 7px 12px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    }
+
+    .vision-banner-text {
+      font-size: 11.2pt;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .vision-banner-text span.accent-tech { color: #38bdf8; }
+    .vision-banner-text span.accent-edu { color: #ffffff; }
+    .vision-banner-text span.accent-innov { color: #fbbf24; }
+    .vision-banner-text span.accent-impact { color: #4ade80; }
+
+    /* ==================== EXECUTIVE FOOTER ==================== */
+    .exec-footer {
+      background: #091528;
+      color: #94a3b8;
+      padding: 6px 22px;
+      font-size: 7.8pt;
+      border-top: 1.5px solid #d97706;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .footer-tags {
+      color: #cbd5e1;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .footer-doc-type {
+      color: #fbbf24;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== EXECUTIVE HEADER ==================== -->
+  <header class="exec-header">
+    <div class="exec-header-inner">
+      <div class="header-main">
+        <h1 class="exec-name">OYEDEJI TEMITAYO SAMSON</h1>
+        
+        <div class="exec-headline">
+          <span class="exec-title-badge">Co-Founder · Managing Director / COO</span>
+          <span class="exec-company">UAV HUB SYSTEMS LIMITED</span>
+        </div>
+
+        <div class="exec-roles">
+          <span>AI/ML Practitioner</span> &nbsp;|&nbsp; 
+          <span>UAV Technology Professional</span> &nbsp;|&nbsp; 
+          <span>Mathematics Educator</span>
+        </div>
+
+        <div class="header-contact-strip">
+          <div class="contact-pill">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            08035472186
+          </div>
+          <div class="contact-pill">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <a href="mailto:tplusonice@gmail.com">tplusonice@gmail.com</a>
+          </div>
+          <div class="contact-pill">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            Abeokuta, Ogun State, Nigeria
+          </div>
+          <div class="contact-pill">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            linkedin.com/in/temitayo-oyedeji-448439293
+          </div>
+        </div>
+      </div>
+
+      <div class="header-media">
+        <div class="header-photo-frame">
+          <img src="assets/temitayo-oyedeji.png" alt="Temitayo Samson Oyedeji">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== EXECUTIVE BODY ==================== -->
+  <main class="exec-body">
+
+    <!-- INTRODUCTORY PARAGRAPHS -->
+    <section class="intro-card">
+      <p class="intro-paragraph">
+        I am a multidisciplinary technology and education professional with expertise across <strong>Artificial Intelligence & Machine Learning</strong>, <strong>UAV/Drone Technology</strong>, <strong>Mathematics Education</strong>, <strong>STEM</strong>, and digital solutions.
+      </p>
+      <p class="intro-paragraph">
+        I am the Co-Founder and Managing Director/COO of <strong>UAV HUB SYSTEMS LIMITED</strong>, a technology-driven company focused on UAV innovation, drone services, STEM education, AI/ML solutions, training, and emerging technology applications.
+      </p>
+      <p class="intro-paragraph">
+        With extensive experience in education and a growing specialization in Python, AI/ML, data-driven solutions, and digital product development, I combine educational expertise with technology and entrepreneurship to develop practical solutions to real-world problems.
+      </p>
+    </section>
+
+    <!-- CORE EXPERTISE -->
+    <section class="section-container">
+      <div class="section-header-box">
+        <h2 class="section-title-text">CORE EXPERTISE</h2>
+      </div>
+      <div class="expertise-grid">
+        <div class="expertise-chip">
+          <span class="chip-bullet"></span>
+          <span>AI/ML</span>
+        </div>
+        <div class="expertise-chip">
+          <span class="chip-bullet"></span>
+          <span>Python</span>
+        </div>
+        <div class="expertise-chip">
+          <span class="chip-bullet"></span>
+          <span>UAV & Drone Technology</span>
+        </div>
+        <div class="expertise-chip">
+          <span class="chip-bullet"></span>
+          <span>STEM Education</span>
+        </div>
+        <div class="expertise-chip">
+          <span class="chip-bullet"></span>
+          <span>Mathematics Education</span>
+        </div>
+        <div class="expertise-chip">
+          <span class="chip-bullet"></span>
+          <span>Digital Solutions</span>
+        </div>
+        <div class="expertise-chip">
+          <span class="chip-bullet"></span>
+          <span>Technology Training</span>
+        </div>
+        <div class="expertise-chip">
+          <span class="chip-bullet"></span>
+          <span>Entrepreneurship</span>
+        </div>
+        <div class="expertise-chip">
+          <span class="chip-bullet"></span>
+          <span>Innovation</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT I DO -->
+    <section class="section-container">
+      <div class="section-header-box">
+        <h2 class="section-title-text">WHAT I DO</h2>
+      </div>
+      <div class="what-i-do-container">
+        <ul class="what-i-do-list">
+          <li class="what-i-do-item">
+            <div class="item-icon-box">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span>Develop and explore AI/ML-powered solutions</span>
+          </li>
+          <li class="what-i-do-item">
+            <div class="item-icon-box">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span>Design and deploy practical UAV/drone applications</span>
+          </li>
+          <li class="what-i-do-item">
+            <div class="item-icon-box">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span>Deliver STEM and technology education</span>
+          </li>
+          <li class="what-i-do-item">
+            <div class="item-icon-box">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span>Develop digital products and technology solutions</span>
+          </li>
+          <li class="what-i-do-item">
+            <div class="item-icon-box">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span>Provide Mathematics and Further Mathematics education</span>
+          </li>
+          <li class="what-i-do-item">
+            <div class="item-icon-box">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span>Help organizations identify practical applications of emerging technologies</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PROFESSIONAL VISION -->
+    <section class="section-container">
+      <div class="section-header-box">
+        <h2 class="section-title-text">PROFESSIONAL VISION</h2>
+      </div>
+      <div class="vision-box">
+        <p class="vision-text">
+          To bridge technology, education, and entrepreneurship to create practical solutions that empower people, organizations, and the next generation of innovators.
+        </p>
+        <div class="vision-banner">
+          <div class="vision-banner-text">
+            <span class="accent-tech">Technology.</span> 
+            <span class="accent-edu">Education.</span> 
+            <span class="accent-innov">Innovation.</span> 
+            <span class="accent-impact">Impact.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== EXECUTIVE FOOTER ==================== -->
+  <footer class="exec-footer">
+    <div class="footer-tags">AI/ML &nbsp;·&nbsp; UAV Technology &nbsp;·&nbsp; STEM Education &nbsp;·&nbsp; Mathematics Education</div>
+    <div class="footer-doc-type">Executive Profile</div>
+  </footer>
+
+</body>
+</html>

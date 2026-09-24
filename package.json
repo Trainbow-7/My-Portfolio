@@ -4,7 +4,9 @@
   "description": "Temitayo Oyedeji Portfolio Website",
   "scripts": {
     "build": "node build.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "print:cv": "node print-cv.js",
+    "print:exec-profile": "node print-executive-profile.js"
   },
   "keywords": [],
   "author": "Temitayo Oyedeji",
