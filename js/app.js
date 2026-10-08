@@ -44,7 +44,7 @@ const DEFAULT_DATA = {
       technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Prisma', 'Tailwind CSS', 'Vercel'],
       role: 'Lead Full-Stack Engineer & System Architect',
       outcome: 'Replaced paper registers across multi-unit operations; enabled instant QR/barcode check-in, automated overstay notifications, and real-time peak-hour analytics with 100% audit compliance.',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+      image: 'assets/bitnox-entry-flow-vms.jpg',
       demoUrl: 'https://bitnoxsolution-entry-flow.vercel.app',
       githubUrl: 'https://github.com/Trainbow-7/Bitnoxsolution-entry-flow'
     },
@@ -228,7 +228,7 @@ class Store {
           updated = true;
         }
         const p3Index = parsedProjects.findIndex(p => p.id === 'proj-3');
-        if (p3Index >= 0 && (parsedProjects[p3Index].title.includes('Predictive Modeling') || !parsedProjects[p3Index].githubUrl || parsedProjects[p3Index].demoUrl === '#')) {
+        if (p3Index >= 0 && (parsedProjects[p3Index].title.includes('Predictive Modeling') || !parsedProjects[p3Index].githubUrl || parsedProjects[p3Index].demoUrl === '#' || (parsedProjects[p3Index].image && parsedProjects[p3Index].image.includes('unsplash')))) {
           parsedProjects[p3Index] = DEFAULT_DATA.projects[2];
           updated = true;
         }
