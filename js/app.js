@@ -9,16 +9,17 @@ const DEFAULT_DATA = {
   projects: [
     {
       id: 'proj-1',
-      title: 'TrainbowHub - AI-Powered Adaptive Learning Engine',
+      title: 'Nigeria Real Estate Valuation & Property Classification ML Engine',
       category: 'ai-ml',
-      categoryName: 'AI & EdTech',
-      problem: 'Nigerian students and teachers lack localized, adaptive intelligent tutoring systems that cater to diverse classroom paces and regional curriculum challenges.',
-      solution: 'Engineered an intelligent study assistant utilizing custom NLP models, dynamic lesson planning tools, and real-time concept mastery analytics.',
-      technologies: ['Python', 'FastAPI', 'PyTorch', 'LLMs', 'JavaScript', 'Tailored NLP'],
-      role: 'Lead AI Engineer & System Architect',
-      outcome: 'Improved student assessment retention by 42% in pilot cohorts and reduced teacher lesson planning time by 60%.',
-      image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80',
-      demoUrl: '#'
+      categoryName: 'AI & Machine Learning',
+      problem: 'Nigerian real estate buyers, investors, and property agents grapple with price volatility, valuation opacity, and unstandardized property classifications across regional markets.',
+      solution: 'Engineered a machine learning pipeline using monotonic HistGradientBoosting and ensemble regression trained on 24,326 real estate records to accurately predict property market valuations in Naira (₦) and classify property types (Detached Duplex, Terraced Duplex, Semi-Detached, Bungalow) from house features.',
+      technologies: ['Python', 'Scikit-Learn', 'FastAPI', 'HistGradientBoosting', 'Pandas', 'Vercel'],
+      role: 'Machine Learning Engineer & Pipeline Architect',
+      outcome: 'Trained on 24,326 real estate records with 87%+ accuracy across 24 Nigerian states; deployed live web application on Vercel and REST API on Render.',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+      demoUrl: 'https://nigerianhousedataipynb.vercel.app',
+      githubUrl: 'https://github.com/Trainbow-7/nigerian_house_data.ipynb'
     },
     {
       id: 'proj-2',
@@ -35,16 +36,17 @@ const DEFAULT_DATA = {
     },
     {
       id: 'proj-3',
-      title: 'Predictive Modeling on Nigerian Socio-Economic & Agri Datasets',
+      title: 'Bitnoxsolution Entry Flow - Enterprise Visitor Management System (VMS)',
       category: 'ai-ml',
-      categoryName: 'AI / Data Science',
-      problem: 'Lack of clean, standardized local datasets for predicting commodity pricing volatility and agricultural harvest yields in Nigeria.',
-      solution: 'Built automated ETL pipelines and gradient boosted regression models to forecast harvest prices and regional supply fluctuations.',
-      technologies: ['Python', 'Scikit-Learn', 'Pandas', 'XGBoost', 'Streamlit', 'Statsmodels'],
-      role: 'Data Scientist & ML Developer',
-      outcome: 'Achieved 89.4% prediction accuracy on multi-seasonal food basket index and published open notebooks for developer access.',
+      categoryName: 'Enterprise Full-Stack & Analytics',
+      problem: 'Multi-unit organizations and technology institutes rely on manual paper registers, resulting in zero visibility into visitor intent, security risks, lack of overstay tracking, and disorganized front-desk operations.',
+      solution: 'Architected a full-stack, role-based Visitor Management System (VMS) featuring QR self-service check-in, real-time in-office occupancy tracking, automated overstay alerts, server-side RBAC permissions, and executive analytics dashboards.',
+      technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Prisma', 'Tailwind CSS', 'Vercel'],
+      role: 'Lead Full-Stack Engineer & System Architect',
+      outcome: 'Replaced paper registers across multi-unit operations; enabled instant QR/barcode check-in, automated overstay notifications, and real-time peak-hour analytics with 100% audit compliance.',
       image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-      demoUrl: '#'
+      demoUrl: 'https://bitnoxsolution-entry-flow.vercel.app',
+      githubUrl: 'https://github.com/Trainbow-7/Bitnoxsolution-entry-flow'
     },
     {
       id: 'proj-4',
@@ -213,8 +215,29 @@ class Store {
   }
 
   init() {
-    if (!localStorage.getItem('to_projects')) {
+    const storedProjects = localStorage.getItem('to_projects');
+    if (!storedProjects) {
       localStorage.setItem('to_projects', JSON.stringify(DEFAULT_DATA.projects));
+    } else {
+      try {
+        let parsedProjects = JSON.parse(storedProjects);
+        let updated = false;
+        const p1Index = parsedProjects.findIndex(p => p.id === 'proj-1');
+        if (p1Index >= 0 && (parsedProjects[p1Index].title.includes('TrainbowHub') || !parsedProjects[p1Index].githubUrl || parsedProjects[p1Index].demoUrl === '#')) {
+          parsedProjects[p1Index] = DEFAULT_DATA.projects[0];
+          updated = true;
+        }
+        const p3Index = parsedProjects.findIndex(p => p.id === 'proj-3');
+        if (p3Index >= 0 && (parsedProjects[p3Index].title.includes('Predictive Modeling') || !parsedProjects[p3Index].githubUrl || parsedProjects[p3Index].demoUrl === '#')) {
+          parsedProjects[p3Index] = DEFAULT_DATA.projects[2];
+          updated = true;
+        }
+        if (updated) {
+          localStorage.setItem('to_projects', JSON.stringify(parsedProjects));
+        }
+      } catch (e) {
+        localStorage.setItem('to_projects', JSON.stringify(DEFAULT_DATA.projects));
+      }
     }
     // Always refresh articles with clean formatting
     localStorage.setItem('to_articles', JSON.stringify(DEFAULT_DATA.articles));
@@ -631,6 +654,18 @@ function renderProjects(filter = 'all') {
           </div>
           <div class="project-actions">
             <button class="btn btn-primary btn-sm" onclick="openProjectModal('${p.id}')">View Case Study</button>
+            ${p.demoUrl && p.demoUrl !== '#' ? `
+              <a href="${p.demoUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" title="Launch Live Web App" style="display: inline-flex; align-items: center; gap: 5px;">
+                <span>Live Demo</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            ` : ''}
+            ${p.githubUrl && p.githubUrl !== '#' ? `
+              <a href="${p.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" title="View Source Code on GitHub" style="display: inline-flex; align-items: center; gap: 5px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                <span>GitHub</span>
+              </a>
+            ` : ''}
           </div>
         </div>
       </div>
@@ -803,14 +838,20 @@ window.openProjectModal = function(id) {
       </div>
     </div>
 
-    <div style="display: flex; gap: 12px; border-top: 1px solid var(--border-light); padding-top: 20px; flex-wrap: wrap;">
-      <a href="#contact" class="btn btn-primary btn-sm" onclick="closeAllModals(); selectServiceFromProject('${proj.category}')">Discuss Similar Project</a>
-      <a href="${proj.demoUrl && proj.demoUrl !== '#' ? proj.demoUrl : (proj.githubUrl || 'https://github.com/Trainbow-7')}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+    <div style="display: flex; gap: 12px; border-top: 1px solid var(--border-light); padding-top: 20px; flex-wrap: wrap; align-items: center;">
+      ${proj.demoUrl && proj.demoUrl !== '#' ? `
+        <a href="${proj.demoUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          <span>Launch Live Demo</span>
+        </a>
+      ` : ''}
+      <a href="${proj.githubUrl && proj.githubUrl !== '#' ? proj.githubUrl : 'https://github.com/Trainbow-7'}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
         </svg>
         <span>GitHub Repository</span>
       </a>
+      <a href="#contact" class="btn btn-secondary btn-sm" onclick="closeAllModals(); selectServiceFromProject('${proj.category}')">Discuss Similar Project</a>
     </div>
   `;
 

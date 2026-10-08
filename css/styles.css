@@ -1656,7 +1656,9 @@ ul, ol {
 
 .project-actions {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
   border-top: 1px solid var(--border-light);
   padding-top: 16px;
 }
