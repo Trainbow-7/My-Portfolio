@@ -63,16 +63,17 @@ const DEFAULT_DATA = {
     },
     {
       id: 'proj-5',
-      title: 'Computer Vision Defect Detection for Critical Infrastructure',
+      title: 'JAMB Score Tier Classification & Student Performance Predictor ML Engine',
       category: 'ai-ml',
-      categoryName: 'AI & Computer Vision',
-      problem: 'Manual inspection of telecommunication masts and transmission lines is perilous, time-consuming, and prone to human oversight.',
-      solution: 'Developed a YOLOv8 and PyTorch custom vision pipeline trained on high-altitude drone footage to automatically flag corrosion and structural fractures.',
-      technologies: ['YOLOv8', 'OpenCV', 'PyTorch', 'Python', 'UAV Video Streaming'],
-      role: 'Computer Vision Engineer',
-      outcome: 'Identified structural defects with 94.2% precision, decreasing inspection turnaround time from days to hours.',
-      image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
-      demoUrl: '#'
+      categoryName: 'AI & Educational Data Science',
+      problem: 'Secondary school educators, academic counselors, and university admission candidates struggle to identify students at risk of underperforming in high-stakes JAMB examinations early enough to implement targeted academic interventions.',
+      solution: 'Architected and deployed an ensemble Gradient Boosting classification model analyzing key student indicators (study hours, attendance rate, teacher quality, school type, and socioeconomic factors) to predict performance tiers (High, Average, Low) via an interactive web app and REST API.',
+      technologies: ['Python', 'Scikit-Learn', 'FastAPI', 'Gradient Boosting', 'Pandas', 'Joblib', 'Vercel'],
+      role: 'Machine Learning Engineer & Educational Data Scientist',
+      outcome: 'Trained a Gradient Boosting classifier achieving ~57.4% test accuracy across three distinct tiers on student educational features; deployed interactive web app on Vercel and REST API on Render.',
+      image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80',
+      demoUrl: 'https://jambscoreclassifieripynb.vercel.app',
+      githubUrl: 'https://github.com/Trainbow-7/jamb_score_classifier.ipynb'
     },
     {
       id: 'proj-6',
@@ -230,6 +231,11 @@ class Store {
         const p3Index = parsedProjects.findIndex(p => p.id === 'proj-3');
         if (p3Index >= 0 && (parsedProjects[p3Index].title.includes('Predictive Modeling') || !parsedProjects[p3Index].githubUrl || parsedProjects[p3Index].demoUrl === '#' || (parsedProjects[p3Index].image && parsedProjects[p3Index].image.includes('unsplash')))) {
           parsedProjects[p3Index] = DEFAULT_DATA.projects[2];
+          updated = true;
+        }
+        const p5Index = parsedProjects.findIndex(p => p.id === 'proj-5');
+        if (p5Index >= 0 && (parsedProjects[p5Index].title.includes('Computer Vision') || !parsedProjects[p5Index].githubUrl || parsedProjects[p5Index].demoUrl === '#')) {
+          parsedProjects[p5Index] = DEFAULT_DATA.projects[4];
           updated = true;
         }
         if (updated) {
