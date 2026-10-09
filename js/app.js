@@ -104,6 +104,36 @@ const DEFAULT_DATA = {
       outcome: 'Over 15 years produced consistent A* and Distinction candidates across secondary examinations.',
       image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80',
       demoUrl: '#'
+    },
+    {
+      id: 'proj-7',
+      title: 'Modular UAV Airframe Rapid Prototyping & Geometric Fabrication Lab',
+      category: 'stem',
+      categoryName: 'STEM & Engineering Prototyping',
+      problem: 'Engineering and STEM students often struggle to translate 2D coordinate geometry and structural physics into physical flight hardware, facing prohibitive commercial airframe costs.',
+      solution: 'Architected an applied STEM fabrication curriculum teaching polygon geometry, motor arm thrust vectors, rotational symmetry, and template-to-composite translation (UHS11 Modular Airframe) using accessible, precision prototyping materials.',
+      technologies: ['Geometric Drafting', 'Airframe Structural Design', 'Rapid Prototyping', 'Precision Fabrication', 'UHS11 Airframe', 'Rotational Symmetry'],
+      role: 'Lead Airframe Design Engineer & STEM Prototyping Facilitator',
+      outcome: 'Successfully piloted across engineering cohorts; enabled 100+ trainees to draft, cut, and assemble functional multicopter airframes from scratch with sub-millimeter symmetry and verified flight balance.',
+      image: 'assets/stem-airframe-assembly-prototype.jpg',
+      gallery: [
+        {
+          url: 'assets/stem-airframe-cad-templates.jpg',
+          title: 'Template-to-Composite Part Translation',
+          caption: 'Direct comparison between geometric drafting patterns (UHS11) and precision-cut structural composite plates for UAV HUB SYSTEMS.'
+        },
+        {
+          url: 'assets/stem-airframe-geometric-drafting.jpg',
+          title: 'Octagonal Hub Geometric Drafting',
+          caption: 'Workbench drafting establishing 8-sided rotational symmetry, motor arm thrust lines, and center-of-gravity indexing.'
+        },
+        {
+          url: 'assets/stem-airframe-manual-fabrication.jpg',
+          title: 'Hands-on Template Cutting & Sizing',
+          caption: 'Manual fabrication and measurement calibration teaching students real-world manufacturing tolerances.'
+        }
+      ],
+      demoUrl: '#'
     }
   ],
   articles: [
@@ -258,6 +288,15 @@ class Store {
         const p5Index = parsedProjects.findIndex(p => p.id === 'proj-5');
         if (p5Index >= 0 && (parsedProjects[p5Index].title.includes('Computer Vision') || !parsedProjects[p5Index].githubUrl || parsedProjects[p5Index].demoUrl === '#')) {
           parsedProjects[p5Index] = DEFAULT_DATA.projects[4];
+          updated = true;
+        }
+        const p7Index = parsedProjects.findIndex(p => p.id === 'proj-7');
+        const defaultP7 = DEFAULT_DATA.projects.find(p => p.id === 'proj-7');
+        if (p7Index < 0 && defaultP7) {
+          parsedProjects.push(defaultP7);
+          updated = true;
+        } else if (p7Index >= 0 && defaultP7 && !parsedProjects[p7Index].gallery) {
+          parsedProjects[p7Index] = defaultP7;
           updated = true;
         }
         if (updated) {
