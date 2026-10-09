@@ -58,7 +58,24 @@ const DEFAULT_DATA = {
       technologies: ['Aerodynamics Curriculum', 'Flight Controllers', 'Soldering & Assembly', 'STEM Lab Kits', 'Safety Protocols'],
       role: 'Curriculum Director & Workshop Facilitator',
       outcome: 'Trained 450+ secondary students across 12 institutions; 100% of participants built and test-flew functional micro-quadcopters.',
-      image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
+      image: 'assets/stem-drone-workshop-group.jpg',
+      gallery: [
+        {
+          url: 'assets/stem-drone-workshop-flight.jpg',
+          title: 'Live Flight Demonstration',
+          caption: 'Outdoor flight test and real-time telemetry demonstration for participating students.'
+        },
+        {
+          url: 'assets/stem-drone-workshop-builder.jpg',
+          title: 'Hardware & Avionics Assembly',
+          caption: 'Hands-on review of custom carbon-fiber quadcopter airframe, brushless motors, and flight controller.'
+        },
+        {
+          url: 'assets/stem-drone-workshop-presentation.jpg',
+          title: 'School-Wide STEM Assembly',
+          caption: 'Interactive presentation at Bloomseed Elementary introducing students to aerodynamics and UAV technology.'
+        }
+      ],
       demoUrl: '#'
     },
     {
@@ -231,6 +248,11 @@ class Store {
         const p3Index = parsedProjects.findIndex(p => p.id === 'proj-3');
         if (p3Index >= 0 && (parsedProjects[p3Index].title.includes('Predictive Modeling') || !parsedProjects[p3Index].githubUrl || parsedProjects[p3Index].demoUrl === '#' || (parsedProjects[p3Index].image && parsedProjects[p3Index].image.includes('unsplash')))) {
           parsedProjects[p3Index] = DEFAULT_DATA.projects[2];
+          updated = true;
+        }
+        const p4Index = parsedProjects.findIndex(p => p.id === 'proj-4');
+        if (p4Index >= 0 && (parsedProjects[p4Index].image && (parsedProjects[p4Index].image.includes('unsplash') || !parsedProjects[p4Index].gallery))) {
+          parsedProjects[p4Index] = DEFAULT_DATA.projects[3];
           updated = true;
         }
         const p5Index = parsedProjects.findIndex(p => p.id === 'proj-5');
@@ -802,6 +824,36 @@ window.closeAllModals = function() {
   if (typeof lenis !== 'undefined' && lenis) lenis.start();
 };
 
+window.switchProjectModalHero = function(imgUrl, label, el) {
+  const heroImg = document.getElementById('projectModalHeroImg');
+  const heroLabel = document.getElementById('modalHeroLabel');
+  const resetBtn = document.getElementById('resetModalHeroBtn');
+  if (!heroImg) return;
+
+  heroImg.style.opacity = '0.2';
+  setTimeout(() => {
+    heroImg.src = imgUrl;
+    heroImg.style.opacity = '1';
+  }, 120);
+
+  if (heroLabel && label) {
+    heroLabel.textContent = label;
+  }
+
+  document.querySelectorAll('.project-gallery-card').forEach(card => {
+    card.style.borderColor = 'var(--border-light)';
+    card.style.boxShadow = 'none';
+  });
+
+  if (el && el.classList && el.classList.contains('project-gallery-card')) {
+    el.style.borderColor = '#0284c7';
+    el.style.boxShadow = '0 0 0 2px rgba(2, 132, 199, 0.25)';
+    if (resetBtn) resetBtn.style.display = 'block';
+  } else {
+    if (resetBtn) resetBtn.style.display = 'none';
+  }
+};
+
 window.openProjectModal = function(id) {
   const projects = store.getProjects();
   const proj = projects.find(p => p.id === id);
@@ -810,14 +862,25 @@ window.openProjectModal = function(id) {
   const modal = document.getElementById('projectDetailModal');
   const body = document.getElementById('projectModalBody');
 
+  const hasGallery = proj.gallery && Array.isArray(proj.gallery) && proj.gallery.length > 0;
+
   body.innerHTML = `
     <div style="margin-bottom: 20px;">
       <h2 style="font-size: 1.8rem; font-weight: 800; color: #09090b;">${proj.title}</h2>
       <p style="color: #0284c7; font-weight: 700; font-size: 0.95rem; margin-top: 4px;">Role: ${proj.role}</p>
     </div>
 
-    <div style="width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 24px; border: 1px solid var(--border-light);">
-      <img src="${proj.image}" alt="${proj.title}" style="width: 100%; height: 100%; object-fit: cover;" />
+    <div style="width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 24px; border: 1px solid var(--border-light); position: relative; background: #09090b;">
+      <img id="projectModalHeroImg" src="${proj.image}" alt="${proj.title}" style="width: 100%; height: 100%; object-fit: cover; transition: opacity 0.25s ease;" />
+      ${hasGallery ? `
+        <div id="modalHeroBadge" style="position: absolute; bottom: 12px; left: 12px; background: rgba(9, 9, 11, 0.78); backdrop-filter: blur(8px); color: #ffffff; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); border: 1px solid rgba(255, 255, 255, 0.15); display: inline-flex; align-items: center; gap: 6px;">
+          <span style="width: 6px; height: 6px; border-radius: 50%; background: #38bdf8;"></span>
+          <span id="modalHeroLabel">Featured Project Photo</span>
+        </div>
+        <button id="resetModalHeroBtn" onclick="switchProjectModalHero('${proj.image}', 'Featured Project Photo', this)" style="display: none; position: absolute; top: 12px; right: 12px; background: rgba(9, 9, 11, 0.82); backdrop-filter: blur(8px); color: #ffffff; font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: var(--radius-full); border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer; transition: all 0.2s ease;">
+          ↺ View Cover
+        </button>
+      ` : ''}
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
@@ -837,12 +900,49 @@ window.openProjectModal = function(id) {
       </div>
     </div>
 
-    <div style="margin-bottom: 24px;">
+    <div style="margin-bottom: ${hasGallery ? '20px' : '24px'};">
       <h4 style="font-size: 0.95rem; color: #09090b; margin-bottom: 10px; font-weight: 700;">Technologies & Tools Deployed</h4>
       <div style="display: flex; flex-wrap: wrap; gap: 8px;">
         ${proj.technologies.map(t => `<span class="tech-pill" style="color: #0284c7; border-color: #bae6fd; background: #f0f9ff; font-weight: 600;">${t}</span>`).join('')}
       </div>
     </div>
+
+    ${hasGallery ? `
+      <div style="margin-bottom: 24px; background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+          <h4 style="font-size: 0.95rem; color: #09090b; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; margin: 0;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Workshop & Field Photo Gallery</span>
+          </h4>
+          <span style="font-size: 0.75rem; color: #0284c7; font-weight: 600; background: #f0f9ff; border: 1px solid #bae6fd; padding: 3px 10px; border-radius: var(--radius-full);">
+            Click any photo to enlarge above
+          </span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+          ${proj.gallery.map((item, idx) => `
+            <div class="project-gallery-card" onclick="switchProjectModalHero('${item.url}', '${item.title}', this)" style="background: #ffffff; border: 1px solid var(--border-light); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; display: flex; flex-direction: column;">
+              <div style="width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #0f172a; position: relative;">
+                <img src="${item.url}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease;" />
+                <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%); opacity: 0.8;"></div>
+                <span style="position: absolute; bottom: 8px; left: 8px; background: rgba(9, 9, 11, 0.75); color: #ffffff; font-size: 0.7rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; backdrop-filter: blur(4px);">
+                  Photo ${idx + 1}
+                </span>
+              </div>
+              <div style="padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <strong style="font-size: 0.85rem; color: #0f172a; display: block; margin-bottom: 4px; line-height: 1.3;">${item.title}</strong>
+                  <p style="font-size: 0.78rem; color: #64748b; line-height: 1.45; margin: 0;">${item.caption}</p>
+                </div>
+                <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between;">
+                  <span style="font-size: 0.72rem; color: #0284c7; font-weight: 600;">View in Hero</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
 
     <div style="display: flex; gap: 12px; border-top: 1px solid var(--border-light); padding-top: 20px; flex-wrap: wrap; align-items: center;">
       ${proj.demoUrl && proj.demoUrl !== '#' ? `

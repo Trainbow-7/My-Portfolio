@@ -2378,6 +2378,21 @@ ul, ol {
   background: var(--brand-teal-soft);
 }
 
+/* Project Detail Modal Gallery */
+.project-gallery-card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease !important;
+}
+
+.project-gallery-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.15) !important;
+  border-color: #0284c7 !important;
+}
+
+.project-gallery-card:hover img {
+  transform: scale(1.05);
+}
+
 /* Admin Dashboard Modal */
 .admin-badge {
   display: inline-flex;
