@@ -115,8 +115,13 @@ const DEFAULT_DATA = {
       technologies: ['Geometric Drafting', 'Airframe Structural Design', 'Rapid Prototyping', 'Precision Fabrication', 'UHS11 Airframe', 'Rotational Symmetry'],
       role: 'Lead Airframe Design Engineer & STEM Prototyping Facilitator',
       outcome: 'Successfully piloted across engineering cohorts; enabled 100+ trainees to draft, cut, and assemble functional multicopter airframes from scratch with sub-millimeter symmetry and verified flight balance.',
-      image: 'assets/stem-airframe-assembly-prototype.jpg',
+      image: 'assets/stem-airframe-completed-quadcopter.jpg',
       gallery: [
+        {
+          url: 'assets/stem-airframe-x-frame-assembly.jpg',
+          title: 'Symmetric 4-Arm X-Frame Cross-Boom Integration',
+          caption: 'Aligning and clamping composite boom arms through the dual octagonal hub plates for verified rotational symmetry.'
+        },
         {
           url: 'assets/stem-airframe-cad-templates.jpg',
           title: 'Template-to-Composite Part Translation',
@@ -131,6 +136,11 @@ const DEFAULT_DATA = {
           url: 'assets/stem-airframe-manual-fabrication.jpg',
           title: 'Hands-on Template Cutting & Sizing',
           caption: 'Manual fabrication and measurement calibration teaching students real-world manufacturing tolerances.'
+        },
+        {
+          url: 'assets/stem-airframe-assembly-prototype.jpg',
+          title: 'Modular Airframe Arm & Electronics Dry-Fit',
+          caption: 'Early dry-fit test of structural arm geometry, wiring clearance, and battery mounting layout on workbench.'
         }
       ],
       demoUrl: '#'
@@ -295,7 +305,7 @@ class Store {
         if (p7Index < 0 && defaultP7) {
           parsedProjects.push(defaultP7);
           updated = true;
-        } else if (p7Index >= 0 && defaultP7 && !parsedProjects[p7Index].gallery) {
+        } else if (p7Index >= 0 && defaultP7 && (!parsedProjects[p7Index].gallery || parsedProjects[p7Index].image !== defaultP7.image || parsedProjects[p7Index].gallery.length !== defaultP7.gallery.length)) {
           parsedProjects[p7Index] = defaultP7;
           updated = true;
         }
