@@ -824,6 +824,102 @@ window.closeAllModals = function() {
   if (typeof lenis !== 'undefined' && lenis) lenis.start();
 };
 
+// Image Lightbox State & Controls
+let currentLightboxGallery = [];
+let currentLightboxIndex = 0;
+
+window.openImageLightbox = function(indexOrUrl) {
+  const overlay = document.getElementById('imageLightboxOverlay');
+  if (!overlay) return;
+
+  if (typeof indexOrUrl === 'number') {
+    currentLightboxIndex = Math.max(0, Math.min(indexOrUrl, currentLightboxGallery.length - 1));
+  } else if (typeof indexOrUrl === 'string') {
+    const foundIdx = currentLightboxGallery.findIndex(item => item.url === indexOrUrl);
+    currentLightboxIndex = foundIdx >= 0 ? foundIdx : 0;
+  }
+
+  updateLightboxView();
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  if (typeof lenis !== 'undefined' && lenis) lenis.stop();
+};
+
+function updateLightboxView() {
+  if (!currentLightboxGallery || currentLightboxGallery.length === 0) return;
+  const item = currentLightboxGallery[currentLightboxIndex];
+  if (!item) return;
+
+  const imgEl = document.getElementById('imageLightboxImg');
+  const titleEl = document.getElementById('imageLightboxTitle');
+  const descEl = document.getElementById('imageLightboxDesc');
+  const counterEl = document.getElementById('imageLightboxCounter');
+  const prevBtn = document.querySelector('.image-lightbox-prev');
+  const nextBtn = document.querySelector('.image-lightbox-next');
+
+  if (imgEl) {
+    imgEl.style.opacity = '0.2';
+    setTimeout(() => {
+      imgEl.src = item.url;
+      imgEl.alt = item.title || 'Enlarged photo';
+      imgEl.style.opacity = '1';
+    }, 80);
+  }
+
+  if (titleEl) titleEl.textContent = item.title || 'Project Photo';
+  if (descEl) descEl.textContent = item.caption || '';
+  if (counterEl) counterEl.textContent = `${currentLightboxIndex + 1} / ${currentLightboxGallery.length}`;
+
+  if (prevBtn) prevBtn.style.display = currentLightboxGallery.length > 1 ? 'flex' : 'none';
+  if (nextBtn) nextBtn.style.display = currentLightboxGallery.length > 1 ? 'flex' : 'none';
+}
+
+window.lightboxNextImage = function() {
+  if (!currentLightboxGallery || currentLightboxGallery.length <= 1) return;
+  currentLightboxIndex = (currentLightboxIndex + 1) % currentLightboxGallery.length;
+  updateLightboxView();
+};
+
+window.lightboxPrevImage = function() {
+  if (!currentLightboxGallery || currentLightboxGallery.length <= 1) return;
+  currentLightboxIndex = (currentLightboxIndex - 1 + currentLightboxGallery.length) % currentLightboxGallery.length;
+  updateLightboxView();
+};
+
+window.closeImageLightbox = function(e) {
+  if (e && e.target && e.target.closest('.image-lightbox-container') && !e.target.classList.contains('image-lightbox-close')) {
+    return;
+  }
+  const overlay = document.getElementById('imageLightboxOverlay');
+  if (overlay) overlay.classList.remove('active');
+  const projModal = document.getElementById('projectDetailModal');
+  if (projModal && projModal.classList.contains('active')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+    if (typeof lenis !== 'undefined' && lenis) lenis.start();
+  }
+};
+
+document.addEventListener('keydown', (e) => {
+  const lightbox = document.getElementById('imageLightboxOverlay');
+  if (lightbox && lightbox.classList.contains('active')) {
+    if (e.key === 'Escape') {
+      e.stopPropagation();
+      closeImageLightbox();
+      return;
+    }
+    if (e.key === 'ArrowRight') {
+      lightboxNextImage();
+      return;
+    }
+    if (e.key === 'ArrowLeft') {
+      lightboxPrevImage();
+      return;
+    }
+  }
+});
+
 window.switchProjectModalHero = function(imgUrl, label, el) {
   const heroImg = document.getElementById('projectModalHeroImg');
   const heroLabel = document.getElementById('modalHeroLabel');
@@ -864,20 +960,42 @@ window.openProjectModal = function(id) {
 
   const hasGallery = proj.gallery && Array.isArray(proj.gallery) && proj.gallery.length > 0;
 
+  // Build lightbox playlist with all high-resolution photos:
+  currentLightboxGallery = [
+    {
+      url: proj.image,
+      title: proj.title,
+      caption: 'Cover Showcase Photo — ' + (proj.role || 'Featured Project')
+    }
+  ];
+  if (hasGallery) {
+    proj.gallery.forEach((g, i) => {
+      currentLightboxGallery.push({
+        url: g.url,
+        title: g.title || `Workshop Photo ${i + 1}`,
+        caption: g.caption || ''
+      });
+    });
+  }
+
   body.innerHTML = `
     <div style="margin-bottom: 20px;">
       <h2 style="font-size: 1.8rem; font-weight: 800; color: #09090b;">${proj.title}</h2>
       <p style="color: #0284c7; font-weight: 700; font-size: 0.95rem; margin-top: 4px;">Role: ${proj.role}</p>
     </div>
 
-    <div style="width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 24px; border: 1px solid var(--border-light); position: relative; background: #09090b;">
+    <div style="width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 24px; border: 1px solid var(--border-light); position: relative; background: #09090b; cursor: zoom-in;" onclick="openImageLightbox(0)" title="Click to enlarge in full-screen">
       <img id="projectModalHeroImg" src="${proj.image}" alt="${proj.title}" style="width: 100%; height: 100%; object-fit: cover; transition: opacity 0.25s ease;" />
+      <div style="position: absolute; top: 12px; right: 12px; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(8px); color: #ffffff; font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: var(--radius-full); border: 1px solid rgba(255, 255, 255, 0.25); display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        <span>Click to Enlarge</span>
+      </div>
       ${hasGallery ? `
         <div id="modalHeroBadge" style="position: absolute; bottom: 12px; left: 12px; background: rgba(9, 9, 11, 0.78); backdrop-filter: blur(8px); color: #ffffff; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); border: 1px solid rgba(255, 255, 255, 0.15); display: inline-flex; align-items: center; gap: 6px;">
           <span style="width: 6px; height: 6px; border-radius: 50%; background: #38bdf8;"></span>
           <span id="modalHeroLabel">Featured Project Photo</span>
         </div>
-        <button id="resetModalHeroBtn" onclick="switchProjectModalHero('${proj.image}', 'Featured Project Photo', this)" style="display: none; position: absolute; top: 12px; right: 12px; background: rgba(9, 9, 11, 0.82); backdrop-filter: blur(8px); color: #ffffff; font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: var(--radius-full); border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer; transition: all 0.2s ease;">
+        <button id="resetModalHeroBtn" onclick="event.stopPropagation(); switchProjectModalHero('${proj.image}', 'Featured Project Photo', this)" style="display: none; position: absolute; top: 12px; right: 140px; background: rgba(9, 9, 11, 0.82); backdrop-filter: blur(8px); color: #ffffff; font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: var(--radius-full); border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer; transition: all 0.2s ease;">
           ↺ View Cover
         </button>
       ` : ''}
@@ -914,18 +1032,23 @@ window.openProjectModal = function(id) {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             <span>Workshop & Field Photo Gallery</span>
           </h4>
-          <span style="font-size: 0.75rem; color: #0284c7; font-weight: 600; background: #f0f9ff; border: 1px solid #bae6fd; padding: 3px 10px; border-radius: var(--radius-full);">
-            Click any photo to enlarge above
+          <span style="font-size: 0.75rem; color: #0284c7; font-weight: 700; background: #f0f9ff; border: 1px solid #bae6fd; padding: 4px 12px; border-radius: var(--radius-full); display: inline-flex; align-items: center; gap: 5px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            Click any photo to enlarge full-screen
           </span>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
           ${proj.gallery.map((item, idx) => `
-            <div class="project-gallery-card" onclick="switchProjectModalHero('${item.url}', '${item.title}', this)" style="background: #ffffff; border: 1px solid var(--border-light); border-radius: var(--radius-md); overflow: hidden; cursor: pointer; display: flex; flex-direction: column;">
+            <div class="project-gallery-card" onclick="openImageLightbox(${idx + 1}); switchProjectModalHero('${item.url}', '${item.title}', this);" style="background: #ffffff; border: 1px solid var(--border-light); border-radius: var(--radius-md); overflow: hidden; cursor: zoom-in; display: flex; flex-direction: column;" title="Click to enlarge ${item.title}">
               <div style="width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #0f172a; position: relative;">
                 <img src="${item.url}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease;" />
                 <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%); opacity: 0.8;"></div>
                 <span style="position: absolute; bottom: 8px; left: 8px; background: rgba(9, 9, 11, 0.75); color: #ffffff; font-size: 0.7rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; backdrop-filter: blur(4px);">
                   Photo ${idx + 1}
+                </span>
+                <span style="position: absolute; top: 8px; right: 8px; background: rgba(9, 9, 11, 0.82); color: #38bdf8; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; backdrop-filter: blur(4px); display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(56, 189, 248, 0.3);">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                  Enlarge
                 </span>
               </div>
               <div style="padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
@@ -934,8 +1057,11 @@ window.openProjectModal = function(id) {
                   <p style="font-size: 0.78rem; color: #64748b; line-height: 1.45; margin: 0;">${item.caption}</p>
                 </div>
                 <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between;">
-                  <span style="font-size: 0.72rem; color: #0284c7; font-weight: 600;">View in Hero</span>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  <span style="font-size: 0.75rem; color: #0284c7; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                    Click to Enlarge
+                  </span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                 </div>
               </div>
             </div>
