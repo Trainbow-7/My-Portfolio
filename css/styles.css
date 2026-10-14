@@ -636,9 +636,26 @@ ul, ol {
 
 .hero-cta-group {
   display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 12px;
   margin-top: 6px;
+  width: 100%;
+}
+
+.hero-cta-group .btn {
+  padding: 13px 20px;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1200px) {
+  .hero-cta-group .btn {
+    padding: 11px 16px;
+    font-size: 0.88rem;
+    gap: 6px;
+  }
 }
 
 .hero-metrics {
