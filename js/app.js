@@ -229,6 +229,18 @@ Core Pillars of Modern Mathematical Literacy:
       credentialUrl: '#credential-oau'
     },
     {
+      id: 'qual-3',
+      title: 'Artificial Intelligence & Machine Learning Engineer',
+      institution: 'Applied Machine Learning & Advanced Technology Engineering',
+      year: 'Active Practice',
+      badge: 'AI & ML Achievement',
+      grade: 'Computer Vision & Predictive ML',
+      description: 'Applied engineering across machine learning pipelines, predictive econometric modeling, computer vision defect inspection, and educational data intelligence. Proven technical architectures including the Nigeria Real Estate ML Valuation Engine and JAMB Score Tier Predictor.',
+      credentialUrl: '#projects',
+      technologies: ['Python', 'Scikit-Learn', 'PyTorch', 'OpenCV', 'FastAPI', 'Pandas'],
+      domains: ['Computer Vision (YOLO/OpenCV)', 'Predictive Regression & Classification', 'Educational Data Science', 'Edge-based Drone Telemetry']
+    },
+    {
       id: 'qual-4',
       title: 'TRCN Certified & Licensed Professional Teacher',
       institution: 'Teachers Registration Council of Nigeria',
@@ -329,8 +341,23 @@ class Store {
           parsedQuals.unshift(DEFAULT_DATA.qualifications[0]);
           updated = true;
         }
-        if (parsedQuals.some(q => q.id === 'qual-3' || (q.title && q.title.includes('Google AI Essentials')))) {
-          parsedQuals = parsedQuals.filter(q => q.id !== 'qual-3' && !(q.title && q.title.includes('Google AI Essentials')));
+        if (parsedQuals.some(q => q.id === 'qual-3' && q.title && q.title.includes('Google AI Essentials'))) {
+          parsedQuals = parsedQuals.filter(q => !(q.id === 'qual-3' && q.title && q.title.includes('Google AI Essentials')));
+          updated = true;
+        }
+        const aiIndex = parsedQuals.findIndex(q => q.id === 'qual-3' || (q.title && (q.title.includes('Artificial Intelligence & Machine Learning Practitioner') || q.title.includes('Artificial Intelligence & Machine Learning Engineer'))));
+        const qual3Data = DEFAULT_DATA.qualifications.find(q => q.id === 'qual-3');
+        if (aiIndex >= 0) {
+          parsedQuals[aiIndex] = qual3Data;
+          updated = true;
+        } else {
+          // Insert after qual-2 (Diploma) or before qual-4 (TRCN)
+          const qual4Idx = parsedQuals.findIndex(q => q.id === 'qual-4');
+          if (qual4Idx >= 0) {
+            parsedQuals.splice(qual4Idx, 0, qual3Data);
+          } else {
+            parsedQuals.push(qual3Data);
+          }
           updated = true;
         }
         parsedQuals.forEach(q => {
@@ -622,14 +649,36 @@ function initNavbar() {
   const mobileToggle = document.getElementById('mobileToggle');
   const navMenu = document.getElementById('navMenu');
 
+  const floatingNavBtn = document.getElementById('floatingQuickNavBtn');
+
   window.addEventListener('scroll', () => {
     if (window.scrollY > 40) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
     }
+
+    if (floatingNavBtn) {
+      if (window.scrollY > 350) {
+        floatingNavBtn.classList.add('visible');
+      } else {
+        floatingNavBtn.classList.remove('visible');
+      }
+    }
+
     highlightNavOnScroll();
   });
+
+  if (floatingNavBtn) {
+    floatingNavBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (typeof lenis !== 'undefined' && lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  }
 
   if (mobileToggle && navMenu) {
     mobileToggle.addEventListener('click', (e) => {
@@ -788,6 +837,12 @@ function renderQualifications() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
             View Credential Details
           </button>
+          ${q.id === 'qual-3' ? `
+            <a href="#projects" class="btn btn-secondary btn-sm" onclick="if(window.filterProjects){filterProjects('ai-ml', document.querySelector('#projectFilters [data-category=\'ai-ml\']'));}" title="Explore Realized AI/ML Projects">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              Explore AI/ML Projects
+            </a>
+          ` : ''}
           ${q.id === 'qual-4' ? `
             <button class="btn btn-secondary btn-sm" onclick="openDocRequestModal('TRCN Certificate')" title="Request Official TRCN Certificate">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
@@ -1358,6 +1413,22 @@ window.openCredentialModal = function(id) {
     <div style="background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px;">
       <h4 style="font-size: 0.95rem; color: #09090b; margin-bottom: 8px; font-weight: 700;">Qualification Summary & Scope</h4>
       <p style="font-size: 0.95rem; color: #475569; line-height: 1.7;">${q.description}</p>
+      ${q.technologies ? `
+        <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-light);">
+          <div style="font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px;">Technical Stack & Frameworks</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            ${q.technologies.map(t => `<span class="tech-pill">${t}</span>`).join('')}
+          </div>
+        </div>
+      ` : ''}
+      ${q.domains ? `
+        <div style="margin-top: 14px;">
+          <div style="font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px;">Key Focus Areas</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            ${q.domains.map(d => `<span class="domain-pill" style="font-size: 0.8rem; padding: 4px 10px; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; border-radius: 999px; font-weight: 600;">${d}</span>`).join('')}
+          </div>
+        </div>
+      ` : ''}
     </div>
 
     <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
@@ -1390,7 +1461,13 @@ window.openCredentialModal = function(id) {
           Open Document (PDF)
         </a>
       ` : ''}
-      <a href="#contact" class="btn btn-outline-sky btn-sm" onclick="closeAllModals(); selectService('UAV / Drone Services')">Request Engagement / Hire</a>
+      ${q.id === 'qual-3' ? `
+        <a href="#projects" class="btn btn-primary btn-sm" onclick="closeAllModals(); if(window.filterProjects){filterProjects('ai-ml', document.querySelector('#projectFilters [data-category=\'ai-ml\']'));}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+          Explore Live AI/ML Deployments
+        </a>
+      ` : ''}
+      <a href="#contact" class="btn btn-outline-sky btn-sm" onclick="closeAllModals(); selectService('AI & Machine Learning Solutions')">Request Engagement / Hire</a>
     </div>
   `;
 
