@@ -22,19 +22,6 @@ const DEFAULT_DATA = {
       githubUrl: 'https://github.com/Trainbow-7/nigerian_house_data.ipynb'
     },
     {
-      id: 'proj-2',
-      title: 'Autonomous UAV Precision Mapping & Aerial Inspection Platform',
-      category: 'uav',
-      categoryName: 'UAV & Drones',
-      problem: 'Commercial farms and industrial sites require cost-effective aerial surveillance and photogrammetry without expensive foreign enterprise lock-in.',
-      solution: 'Constructed custom telemetry-enabled multicopter drones integrated with edge-based visual inspection pipelines and waypoint autonomous navigation.',
-      technologies: ['PX4 Autopilot', 'ArduPilot', 'QGroundControl', 'Edge CV', 'Telemetry RF', '3D Photogrammetry'],
-      role: 'UAV Systems Architect & Lead Pilot',
-      outcome: 'Successfully mapped over 1,200 hectares with sub-meter spatial accuracy and deployed for agricultural yield estimation.',
-      image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80',
-      demoUrl: '#'
-    },
-    {
       id: 'proj-3',
       title: 'Bitnoxsolution Entry Flow - Enterprise Visitor Management System (VMS)',
       category: 'ai-ml',
@@ -292,24 +279,36 @@ class Store {
       try {
         let parsedProjects = JSON.parse(storedProjects);
         let updated = false;
+
+        // Ensure proj-2 / Autonomous UAV card is removed from localStorage
+        const p2Index = parsedProjects.findIndex(p => p.id === 'proj-2' || (p.title && p.title.includes('Autonomous UAV Precision Mapping')));
+        if (p2Index >= 0) {
+          parsedProjects.splice(p2Index, 1);
+          updated = true;
+        }
+
         const p1Index = parsedProjects.findIndex(p => p.id === 'proj-1');
-        if (p1Index >= 0 && (parsedProjects[p1Index].title.includes('TrainbowHub') || !parsedProjects[p1Index].githubUrl || parsedProjects[p1Index].demoUrl === '#')) {
-          parsedProjects[p1Index] = DEFAULT_DATA.projects[0];
+        const defaultP1 = DEFAULT_DATA.projects.find(p => p.id === 'proj-1');
+        if (p1Index >= 0 && defaultP1 && (parsedProjects[p1Index].title.includes('TrainbowHub') || !parsedProjects[p1Index].githubUrl || parsedProjects[p1Index].demoUrl === '#')) {
+          parsedProjects[p1Index] = defaultP1;
           updated = true;
         }
         const p3Index = parsedProjects.findIndex(p => p.id === 'proj-3');
-        if (p3Index >= 0 && (parsedProjects[p3Index].title.includes('Predictive Modeling') || !parsedProjects[p3Index].githubUrl || parsedProjects[p3Index].demoUrl === '#' || (parsedProjects[p3Index].image && parsedProjects[p3Index].image.includes('unsplash')))) {
-          parsedProjects[p3Index] = DEFAULT_DATA.projects[2];
+        const defaultP3 = DEFAULT_DATA.projects.find(p => p.id === 'proj-3');
+        if (p3Index >= 0 && defaultP3 && (parsedProjects[p3Index].title.includes('Predictive Modeling') || !parsedProjects[p3Index].githubUrl || parsedProjects[p3Index].demoUrl === '#' || (parsedProjects[p3Index].image && parsedProjects[p3Index].image.includes('unsplash')))) {
+          parsedProjects[p3Index] = defaultP3;
           updated = true;
         }
         const p4Index = parsedProjects.findIndex(p => p.id === 'proj-4');
-        if (p4Index >= 0 && (parsedProjects[p4Index].image && (parsedProjects[p4Index].image.includes('unsplash') || !parsedProjects[p4Index].gallery))) {
-          parsedProjects[p4Index] = DEFAULT_DATA.projects[3];
+        const defaultP4 = DEFAULT_DATA.projects.find(p => p.id === 'proj-4');
+        if (p4Index >= 0 && defaultP4 && (parsedProjects[p4Index].image && (parsedProjects[p4Index].image.includes('unsplash') || !parsedProjects[p4Index].gallery))) {
+          parsedProjects[p4Index] = defaultP4;
           updated = true;
         }
         const p5Index = parsedProjects.findIndex(p => p.id === 'proj-5');
-        if (p5Index >= 0 && (parsedProjects[p5Index].title.includes('Computer Vision') || !parsedProjects[p5Index].githubUrl || parsedProjects[p5Index].demoUrl === '#')) {
-          parsedProjects[p5Index] = DEFAULT_DATA.projects[4];
+        const defaultP5 = DEFAULT_DATA.projects.find(p => p.id === 'proj-5');
+        if (p5Index >= 0 && defaultP5 && (parsedProjects[p5Index].title.includes('Computer Vision') || !parsedProjects[p5Index].githubUrl || parsedProjects[p5Index].demoUrl === '#')) {
+          parsedProjects[p5Index] = defaultP5;
           updated = true;
         }
         const p7Index = parsedProjects.findIndex(p => p.id === 'proj-7');
@@ -753,7 +752,7 @@ function renderProjects(filter = 'all') {
   const projects = store.getProjects();
   const filtered = filter === 'all' 
     ? projects 
-    : projects.filter(p => p.category === filter);
+    : projects.filter(p => p.category === filter || (filter === 'uav' && (p.category === 'uav' || (p.title && p.title.toLowerCase().includes('uav')))));
 
   if (filtered.length === 0) {
     container.innerHTML = `
