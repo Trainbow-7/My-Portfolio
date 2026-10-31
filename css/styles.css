@@ -729,7 +729,7 @@ ul, ol {
     0 28px 60px -15px rgba(12, 38, 44, 0.32),
     0 8px 24px rgba(0, 0, 0, 0.08),
     0 0 0 1px rgba(27, 117, 125, 0.2);
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1086 / 980;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
 }
 
