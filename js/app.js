@@ -36,6 +36,20 @@ const DEFAULT_DATA = {
       githubUrl: 'https://github.com/Trainbow-7/Bitnoxsolution-entry-flow'
     },
     {
+      id: 'proj-8',
+      title: 'Trainbow Hub - Multi-Modal EdTech & Adaptive Learning Platform',
+      category: 'stem',
+      categoryName: 'STEM & AI EdTech',
+      problem: 'Secondary school students and STEM educators face fragmented learning tools, lacking a unified platform that combines structured mathematics syllabi, video pedagogy, and automated computational math solving.',
+      solution: 'Architected Trainbow Hub—a full-stack adaptive learning platform featuring "One account, Four ways to learn", verified mathematics curriculum video pipelines, relational PostgreSQL schemas with Prisma, and an AI Vision microservice for automated handwriting and mathematical equation extraction.',
+      technologies: ['Next.js', 'TypeScript', 'Python', 'FastAPI', 'Prisma', 'PostgreSQL', 'AI Vision', 'Vercel'],
+      role: 'Founder, Lead Full-Stack Architect & AI Engineer',
+      outcome: 'Engineered and deployed production web application on Vercel backed by PostgreSQL; built verified mathematics curriculum video pipeline and AI Vision extraction microservice handling automated equation parsing with 100% test pass rate.',
+      image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80',
+      demoUrl: 'https://trainbow-hub.vercel.app',
+      githubUrl: 'https://github.com/Trainbow-7/Trainbow-Hub'
+    },
+    {
       id: 'proj-4',
       title: 'STEM Drone Builders Workshop & Youth Empowerment Kit',
       category: 'stem',
@@ -297,6 +311,20 @@ class Store {
         const defaultP3 = DEFAULT_DATA.projects.find(p => p.id === 'proj-3');
         if (p3Index >= 0 && defaultP3 && (parsedProjects[p3Index].title.includes('Predictive Modeling') || !parsedProjects[p3Index].githubUrl || parsedProjects[p3Index].demoUrl === '#' || (parsedProjects[p3Index].image && parsedProjects[p3Index].image.includes('unsplash')))) {
           parsedProjects[p3Index] = defaultP3;
+          updated = true;
+        }
+        const trainbowIndex = parsedProjects.findIndex(p => p.id === 'proj-8' || (p.title && p.title.includes('Trainbow Hub')));
+        const defaultTrainbow = DEFAULT_DATA.projects.find(p => p.id === 'proj-8');
+        if (trainbowIndex < 0 && defaultTrainbow) {
+          const p3Idx = parsedProjects.findIndex(p => p.id === 'proj-3');
+          if (p3Idx >= 0) {
+            parsedProjects.splice(p3Idx + 1, 0, defaultTrainbow);
+          } else {
+            parsedProjects.unshift(defaultTrainbow);
+          }
+          updated = true;
+        } else if (trainbowIndex >= 0 && defaultTrainbow) {
+          parsedProjects[trainbowIndex] = defaultTrainbow;
           updated = true;
         }
         const p4Index = parsedProjects.findIndex(p => p.id === 'proj-4');
@@ -752,7 +780,7 @@ function renderProjects(filter = 'all') {
   const projects = store.getProjects();
   const filtered = filter === 'all' 
     ? projects 
-    : projects.filter(p => p.category === filter || (filter === 'uav' && (p.category === 'uav' || (p.title && p.title.toLowerCase().includes('uav')))));
+    : projects.filter(p => p.category === filter || (filter === 'uav' && (p.category === 'uav' || (p.title && p.title.toLowerCase().includes('uav')))) || (filter === 'ai-ml' && (p.category === 'ai-ml' || p.id === 'proj-8')));
 
   if (filtered.length === 0) {
     container.innerHTML = `
